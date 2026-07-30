@@ -1,4 +1,4 @@
-const CACHE_NAME = 'legacy-wrestling-cards-0.2.0';
+const CACHE_NAME = 'legacy-wrestling-cards-0.2.1';
 const CORE = [
   './','./index.html','./styles.css','./data.js','./game.js','./manifest.webmanifest','./version.json',
   './assets/branding/lpw-logo-compact-400.webp','./assets/branding/lpw-logo-main-menu-1200.webp',
