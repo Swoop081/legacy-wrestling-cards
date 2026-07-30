@@ -1,3 +1,3 @@
-# LEGACY Wrestling Cards v0.2.5
+# LEGACY Wrestling Cards v0.3.0
 
-Portrait placement hotfix. Both wrestlers now use shoulder-cropped portrait artwork in wrestler selection, match broadcast panels and match result presentation. Match engine and trading-card decisions are unchanged.
+New card-based match engine prototype. Includes only 1999 Stone Cold Steve Austin and 1999 The Rock, their portrait assets, fixed wrestler-specific card libraries, five-card hands, health, momentum, crowd, position, combos, finishers, pins, kick-outs, comeback cards, match phases and ratings. Move artwork has been removed intentionally.

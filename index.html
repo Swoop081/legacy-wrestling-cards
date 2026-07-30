@@ -1,73 +1,10 @@
-<!doctype html>
-<html class="lpw-booting">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>LEGACY Pro Wrestling 0.2.5</title>
-  <meta name="theme-color" content="#05070d">
-  <meta name="application-name" content="LEGACY Pro Wrestling">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="LEGACY">
-  <link rel="canonical" href="https://swoop081.github.io/legacy-pro-wrestling/">
-  <link rel="manifest" href="manifest.webmanifest?v=0.2.5">
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png?v=0.2.5">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png?v=0.2.5">
-  <link rel="shortcut icon" href="favicon.ico?v=0.2.5">
-  <style>
-    html.lpw-booting body{background:#05070d;overflow:hidden}
-    html.lpw-booting header,html.lpw-booting main,html.lpw-booting #overlay{visibility:hidden}
-    #lpw-boot-screen{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:#05070d;color:#fff;font-family:Arial,sans-serif;text-align:center;padding:max(28px,env(safe-area-inset-top)) 24px max(32px,env(safe-area-inset-bottom));overflow:hidden}
-    #lpw-boot-screen:before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 32%,rgba(29,72,178,.35),transparent 36%),linear-gradient(145deg,rgba(231,48,42,.14),transparent 38%);pointer-events:none}
-    .lpw-start-inner{position:relative;width:min(1000px,94vw);display:flex;flex-direction:column;align-items:center;gap:18px}
-    .lpw-start-logo{display:block;width:min(940px,92vw);max-height:62vh;object-fit:contain;filter:drop-shadow(0 18px 30px rgba(0,0,0,.72))}
-    .lpw-start-version{color:#ffcc26;font-weight:900;letter-spacing:.22em;font-size:clamp(.72rem,2vw,.95rem)}
-    .lpw-start-button{width:min(520px,82vw);padding:18px 24px;border:4px solid #111;background:#e7302a;color:#fff;font:italic clamp(1.4rem,5vw,2.2rem)/1 Impact,Haettenschweiler,'Arial Narrow Bold',sans-serif;letter-spacing:.09em;box-shadow:0 0 0 3px #ffcc26,0 14px 30px rgba(0,0,0,.55);cursor:pointer;text-transform:uppercase}
-    .lpw-start-button:disabled{opacity:.45;cursor:wait;filter:grayscale(.4)}
-    .lpw-start-status{min-height:1.2em;color:#c9c9cd;font-weight:700;letter-spacing:.08em;font-size:.76rem}
-    html.lpw-ready #lpw-boot-screen{display:none}
-    @media(max-width:760px){.lpw-start-logo{width:94vw;max-height:52vh}.lpw-start-inner{gap:14px}.lpw-start-button{padding:15px 20px}}
-  </style>
-  <script>
-  (function(){
-    var key='lpw-cache-0.2.5';
-    if(!sessionStorage.getItem(key)){
-      sessionStorage.setItem(key,'1');
-      if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.map(function(r){return r.unregister();}));}).catch(function(){});}
-      if(window.caches){caches.keys().then(function(keys){return Promise.all(keys.filter(function(k){return k.indexOf('lpw-')===0||k.indexOf('ttg-')===0;}).map(function(k){return caches.delete(k);}));}).catch(function(){});}
-    }
-  })();
-  </script>
-  <link rel="stylesheet" href="styles.css?v=0.2.5">
-  <script>window.TTG_APP_VERSION='0.2.5';</script>
-  <script src="update-manager.js?v=0.2.5" defer></script>
-  <script src="data.js?v=0.2.5" defer></script>
-  <script src="game.js?v=0.2.5" defer></script>
-  <script src="cards-mode.js?v=0.2.5" defer></script>
-</head>
-<body>
-  <div id="lpw-boot-screen"><div class="lpw-start-inner"><img class="lpw-start-logo" src="assets/branding/lpw-logo-splash-1600.webp" alt="LEGACY Pro Wrestling"><div class="lpw-start-version">VERSION 0.2.5</div><button id="lpw-press-start" class="lpw-start-button" type="button" disabled>PRESS START</button><small class="lpw-start-status">LOADING GAME DATA…</small></div></div>
-  <header><button onclick="home()" class="logo brand-header-logo" aria-label="LEGACY Wrestling Cards main menu"><img src="assets/branding/lpw-logo-compact-400.webp" alt="LEGACY Pro Wrestling"></button><div class="header-meta"><span class="build-tag">VERSION 0.2.5</span><div class="streak">STREAK <strong id="streak">0</strong></div></div></header>
-  <main id="app"></main><div id="overlay"></div>
-  <script>
-    (function(){
-      var button=document.getElementById('lpw-press-start');
-      var status=document.querySelector('.lpw-start-status');
-      function refresh(){
-        if(window.__LPW_BOOT_COMPLETE__){button.disabled=false;status.textContent='READY';}
-        else window.setTimeout(refresh,120);
-      }
-      button.addEventListener('click',function(){
-        if(button.disabled)return;
-        document.documentElement.classList.add('lpw-ready');
-        document.documentElement.classList.remove('lpw-booting');
-        try{sessionStorage.setItem('lpw-started-0.2.5','1')}catch(e){}
-      });
-      refresh();
-    })();
-  </script>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b0d11"><title>LEGACY Wrestling Cards</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="favicon.ico"><link rel="stylesheet" href="styles.css?v=0.3.0"></head><body>
+<div id="app"><section id="menu" class="screen active"><img class="logo" src="assets/branding/lpw-logo-main-menu-1200.webp" alt="LEGACY Wrestling Cards"><h1>WRESTLING CARDS</h1><p class="lead">A tactical card-based wrestling match.</p><button id="startBtn" class="primary">Exhibition 1v1</button><div class="version">v0.3.0</div></section>
+<section id="select" class="screen"><header><button class="ghost" data-back="menu">← Back</button><h2>Choose Your Wrestler</h2></header><div id="roster" class="roster"></div></section>
+<section id="match" class="screen"><header class="matchHeader"><button id="quitBtn" class="ghost">Quit</button><div id="phaseBadge" class="phase">Opening</div><div id="turnLabel">Your turn</div></header><div class="arena">
+<div class="fighter player"><img id="playerPortrait"><div><h2 id="playerName"></h2><div class="meterRow"><span>Health</span><b id="playerHealthText"></b></div><div class="meter"><i id="playerHealthBar"></i></div><div class="meterRow"><span>Momentum</span><b id="playerMomentumText"></b></div><div class="meter momentum"><i id="playerMomentumBar"></i></div></div></div>
+<div class="centre"><div class="control"><span id="playerControl">50</span><div class="controlTrack"><i id="controlBar"></i></div><span id="cpuControl">50</span></div><div id="position" class="position">Both wrestlers standing</div><div id="crowd" class="crowd">Crowd 0</div></div>
+<div class="fighter cpu"><img id="cpuPortrait"><div><h2 id="cpuName"></h2><div class="meterRow"><span>Health</span><b id="cpuHealthText"></b></div><div class="meter"><i id="cpuHealthBar"></i></div><div class="meterRow"><span>Momentum</span><b id="cpuMomentumText"></b></div><div class="meter momentum"><i id="cpuMomentumBar"></i></div></div></div></div>
+<div id="message" class="message"></div><div class="handHeader"><div><h3>Your Hand</h3><p>Play one card. A replacement is drawn automatically.</p></div><button id="redrawBtn" class="ghost">Free Redraw</button></div><div id="hand" class="hand"></div><div class="logWrap"><h3>Match Feed</h3><div id="log" class="log"></div></div></section>
+<section id="result" class="screen"><div class="resultCard"><img id="winnerPortrait"><div class="eyebrow">Match Result</div><h1 id="winnerName"></h1><p id="resultSummary"></p><div id="rating" class="rating"></div><button id="rematchBtn" class="primary">Rematch</button><button class="ghost" data-back="menu">Main Menu</button></div></section></div>
+<script src="data.js?v=0.3.0"></script><script src="game.js?v=0.3.0"></script><script src="update-manager.js?v=0.3.0"></script></body></html>
