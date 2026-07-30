@@ -936,3 +936,145 @@
   .rosterTradeName h3{font-size:.92rem}
   .rosterTradeActions button{font-size:.53rem}
 }
+
+
+/* v0.7.8 clean selection cards: artwork + wrestler name only */
+.roster{grid-template-columns:repeat(auto-fit,minmax(250px,310px));gap:26px;align-items:start}
+.rosterCardWrap{display:flex;flex-direction:column;gap:12px;min-width:0}
+.rosterTradeCard.clean{
+  display:block;
+  position:relative;
+  width:100%;
+  aspect-ratio:5/7;
+  min-height:0;
+  padding:0;
+  border:4px solid #d7ad37;
+  border-radius:24px;
+  overflow:hidden;
+  background:#070a0f;
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 18px 42px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.08);
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.rosterTradeCard.clean:hover{transform:translateY(-4px);box-shadow:0 22px 48px rgba(0,0,0,.62),0 0 24px rgba(215,173,55,.28)}
+.rosterTradeCard.clean .rosterTradeArt{position:absolute;inset:0;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 16%,#253653,#0b0f16 72%)}
+.rosterTradeCard.clean .rosterTradeArt::before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,transparent 0 58%,rgba(4,6,10,.3) 72%,rgba(4,6,10,.96) 100%)}
+.rosterTradeCard.clean .rosterTradeArt::after{display:none}
+.rosterTradeCard.clean .rosterTradeArt img{position:absolute;inset:0;width:100%;height:100%;max-height:none;padding:12px 4px 58px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 18px 22px rgba(0,0,0,.55))}
+.rosterTradeCard.clean .rosterTradeName{position:absolute;z-index:4;left:14px;right:14px;bottom:16px;margin:0;padding:0;text-align:center}
+.rosterTradeCard.clean .rosterTradeName h3{margin:0;font-size:1.45rem;line-height:1;text-transform:uppercase;letter-spacing:-.03em;text-shadow:0 3px 9px #000}
+.rosterCardWrap>.rosterTradeActions{position:static;display:grid;grid-template-columns:1fr 1fr;gap:10px;z-index:auto}
+.rosterCardWrap>.rosterTradeActions button{padding:12px 8px;font-size:.82rem}
+#select .rosterTradeTop,#select .rosterTradeStats,#select .rosterTradeName p{display:none!important}
+@media(max-width:850px){
+  .roster{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:24px}
+  .rosterCardWrap{gap:8px}
+  .rosterTradeCard.clean{border-width:3px;border-radius:18px}
+  .rosterTradeCard.clean .rosterTradeArt{border-radius:14px}
+  .rosterTradeCard.clean .rosterTradeArt img{padding:8px 1px 42px}
+  .rosterTradeCard.clean .rosterTradeName{left:8px;right:8px;bottom:11px}
+  .rosterTradeCard.clean .rosterTradeName h3{font-size:.92rem}
+  .rosterCardWrap>.rosterTradeActions{grid-template-columns:1fr}
+  .rosterCardWrap>.rosterTradeActions button{padding:9px 4px;font-size:.62rem}
+}
+
+
+/* v0.7.9 enlarged portrait stage and numeric wrestler HUD */
+#match .fighter{
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-end!important;
+  min-width:0;
+}
+#match .fighterArt{
+  position:relative;
+  width:100%;
+  height:190px;
+  overflow:hidden;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+}
+#match .fighterArt img{
+  position:absolute!important;
+  left:50%!important;
+  bottom:0!important;
+  width:100%!important;
+  height:190px!important;
+  max-width:none!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+  transform:translateX(-50%) scale(1.85)!important;
+  transform-origin:center bottom!important;
+  margin:0!important;
+}
+#match .fighterInfo{
+  position:relative;
+  z-index:5;
+  width:100%;
+  padding:5px 5px 4px!important;
+  margin:0!important;
+  background:linear-gradient(to bottom,rgba(5,8,13,.42),rgba(5,8,13,.9))!important;
+  border-radius:0 0 11px 11px!important;
+}
+#match .fighterInfo h2{
+  margin:0 0 4px!important;
+}
+#match .fighterNumbers{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+}
+#match .numberStat{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:5px;
+  min-width:0;
+  padding:5px 7px;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:9px;
+  background:rgba(5,8,13,.72);
+  box-shadow:inset 0 1px rgba(255,255,255,.05);
+}
+#match .numberStat span{
+  color:#b9c2cf;
+  font-size:.59rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+#match .numberStat b{
+  font-size:1.02rem;
+  line-height:1;
+  font-weight:1000;
+}
+#match .momentumStat b{color:#63aaff}
+#match .healthFull{color:#50d47b}
+#match .healthMid{color:#f2a33a}
+#match .healthLow{color:#f0444f;text-shadow:0 0 12px rgba(240,68,79,.45)}
+#match .meter,#match .meterRow{display:none!important}
+@media(max-width:850px){
+  #match .fighterArt{height:150px}
+  #match .fighterArt img{
+    height:150px!important;
+    transform:translateX(-50%) scale(1.9)!important;
+  }
+  #match .fighterInfo{padding:3px 4px 3px!important}
+  #match .fighterInfo h2{font-size:.9rem!important;margin-bottom:3px!important}
+  #match .fighterNumbers{gap:4px}
+  #match .numberStat{padding:4px 5px;border-radius:7px}
+  #match .numberStat span{font-size:.48rem}
+  #match .numberStat b{font-size:.9rem}
+}
+@media(max-width:390px){
+  #match .fighterArt{height:136px}
+  #match .fighterArt img{
+    height:136px!important;
+    transform:translateX(-50%) scale(1.92)!important;
+  }
+  #match .fighterInfo h2{font-size:.82rem!important}
+  #match .numberStat span{font-size:.43rem}
+  #match .numberStat b{font-size:.82rem}
+}

@@ -267,7 +267,7 @@ function updateHandPosition(){const hand=$('#hand'),cards=[...hand.children],met
 function renderHand(){sortHand(state.player);$('#hand').innerHTML=state.player.hand.map((k,i)=>cardMarkup(k,i)).join('');$$('[data-card]').forEach(b=>b.onclick=()=>state.possession==='player'?playerAttack(+b.dataset.card):playerReverse(+b.dataset.card));requestAnimationFrame(updateHandPosition)}
 function renderMatch(){
   const p=state.player,c=state.cpu;$('#playerPortrait').src=W[p.id].portrait;$('#cpuPortrait').src=W[c.id].portrait;$('#playerName').textContent=W[p.id].name;$('#cpuName').textContent=W[c.id].name;
-  [['player',p],['cpu',c]].forEach(([pre,f])=>{$(`#${pre}HealthText`).textContent=f.health;$(`#${pre}HealthBar`).style.width=f.health+'%';$(`#${pre}MomentumText`).textContent=f.momentum;$(`#${pre}MomentumBar`).style.width=f.momentum+'%'});
+  [['player',p],['cpu',c]].forEach(([pre,f])=>{const health=$(`#${pre}HealthText`);health.textContent=f.health;health.className=f.health>55?'healthFull':f.health>25?'healthMid':'healthLow';$(`#${pre}MomentumText`).textContent=f.momentum});
   $('#playerControl').textContent=state.control;$('#cpuControl').textContent=100-state.control;$('#controlBar').style.width=state.control+'%';$('#position').textContent=`Position: ${state.position}`;$('#crowd').textContent=`Crowd ${state.crowd}`;$('#phaseBadge').textContent=state.phase;
   $('#turnLabel').textContent=state.possession==='player'?'Your possession':state.pendingAttack?'Counter now':'Opponent thinking…';$('#redrawBtn').hidden=true;const ac=$('#autoCounterBtn');if(ac){ac.hidden=!(state.possession==='cpu'&&autoCounterEligible(state.player));ac.textContent=`Auto Counter · Discard ${autoCounterCost(state.player)}`;}
   $('#pinBtn').hidden=state.possession!=='player'||!!state.player.stagedAction;$('#pinBtn').textContent=shouldPin(state.player,state.cpu)?'Attempt Pin':'Pass Possession';$('#handTitle').textContent=state.possession==='player'?`Your Hand · ${state.player.hand.length}`:'Your Reversals';renderPile();renderHand();renderLog();
@@ -275,13 +275,13 @@ function renderMatch(){
 
 function overallRating(w){const v=[w.stats.power,w.stats.speed,w.stats.brawling,w.stats.technique,w.stats.ringIQ,w.stats.resilience];return Math.round(v.reduce((a,b)=>a+b,0)/v.length)}
 function rosterCardMarkup(w){
-  return `<article class="rosterTradeCard">
-    <div class="rosterTradeTop"><span class="rosterChip">${w.era} persona</span><span class="rosterChip overall">Overall ${overallRating(w)}</span></div>
-    <div class="rosterTradeArt"><img src="${w.selectionImage || w.portrait}" alt="${w.name}"></div>
-    <div class="rosterTradeName"><h3>${w.name}</h3><p>${w.ai?.style||'Wrestler'}</p></div>
-    <div class="rosterTradeStats stats"><span>Power ${w.stats.power}</span><span>Speed ${w.stats.speed}</span><span>Brawling ${w.stats.brawling}</span><span>Technique ${w.stats.technique}</span><span>Ring IQ ${w.stats.ringIQ}</span><span>Resilience ${w.stats.resilience}</span></div>
+  return `<div class="rosterCardWrap">
+    <button class="rosterTradeCard clean" data-select="${w.id}" aria-label="Choose ${w.name}">
+      <div class="rosterTradeArt"><img src="${w.selectionImage || w.portrait}" alt="${w.name}"></div>
+      <div class="rosterTradeName"><h3>${w.name}</h3></div>
+    </button>
     <div class="rosterTradeActions"><button class="primary compact" data-select="${w.id}">Choose Wrestler</button><button class="ghost compact" data-viewdeck="${w.id}">View Deck</button></div>
-  </article>`;
+  </div>`;
 }
 function staticCardMarkup(k){
   const c=C[k],cls=`gameCard readonlyCard type-${String(c.type||'other').toLowerCase()} ${c.image?'hasArt':''} ${c.finisher?'is-finisher':c.tags?.includes('signature')?'is-signature':''}`;
