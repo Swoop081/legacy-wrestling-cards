@@ -1,33 +1,31 @@
 window.LWC_DATA = {
-  version: '0.4.1',
+  version: '0.4.3',
   wrestlers: {
-    austin: {
-      id: 'austin', name: '"Stone Cold" Steve Austin', shortName: 'Stone Cold', era: '1999',
-      portrait: 'assets/wrestlers/stone-cold-steve-austin/portrait.webp',
-      stats: { power: 92, speed: 83, technique: 89, brawling: 100, charisma: 100, ringIQ: 94, resilience: 100 },
-      traits: { strikeDamage: 1.10, crowdFromAggression: 1.20, riskPenalty: 0.75, comeback: 'Austin Refuses to Stay Down' },
+    cody: {
+      id: 'cody', name: 'Cody Rhodes', shortName: 'Cody', era: '2026',
+      portrait: 'assets/wrestlers/cody-rhodes/portrait.webp',
+      stats: { power: 88, speed: 91, technique: 94, brawling: 88, charisma: 98, ringIQ: 95, resilience: 96 },
+      traits: { crowdGain: 1.22, comboMomentum: 1.18, reversalBonus: 0.07, comeback: 'Finish the Story' },
       library: [
         'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','chop','headbutt','shoulderTackle','dropkick','bigBoot','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBelly','germanSuplex','piledriver','powerbomb','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','topRopeSplash',
-        'louThesz','mountedPunches','mudHole','whoopAss','raiseHell','stunner','austinComeback'
+        'forearm','chop','headbutt','shoulderTackle','dropkick','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','wheelbarrowBulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','germanSuplex','piledriver','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','elbowBackHead'
       ]
     },
-    rock: {
-      id: 'rock', name: 'The Rock', shortName: 'The Rock', era: '1999',
-      portrait: 'assets/wrestlers/the-rock/portrait.webp',
-      stats: { power: 94, speed: 90, technique: 88, brawling: 95, charisma: 100, ringIQ: 93, resilience: 97 },
-      traits: { crowdGain: 1.25, signatureAccuracy: 1.08, comboMomentum: 1.20, reversalBonus: 0.08, comeback: 'The People Are Behind Him' },
+    roman: {
+      id: 'roman', name: 'Roman Reigns', shortName: 'Roman', era: '2026',
+      portrait: 'assets/wrestlers/roman-reigns/portrait.webp',
+      stats: { power: 97, speed: 86, technique: 90, brawling: 96, charisma: 99, ringIQ: 96, resilience: 98 },
+      traits: { strikeDamage: 1.12, crowdFromAggression: 1.12, riskPenalty: 0.82, comeback: 'Tribal Chief Comeback' },
       library: [
-        'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','chop','headbutt','shoulderTackle','dropkick','bigBoot','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBelly','germanSuplex','piledriver','powerbomb','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','topRopeSplash',
-        'samoanDrop','floatDDT','rockSpinebuster','peoplesElbow','rockBottom','rockComeback'
+        'punch','kick','clothesline','flyingClothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
+        'forearm','headbutt','shoulderTackle','bigBoot','kneeLift','bodySlam','scoopSlam','neckbreaker','backbreaker','ddt','verticalSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','powerbomb','legDrop','kneeDrop','rearChinLock','camelClutch','sleeperHold','bostonCrab','crossbody'
       ]
     }
   },
   cards: {
     punch: { name:'Punch', type:'Strike', damage:7, momentum:8, cost:0, accuracy:92, counter:'punch', counterAccuracy:84, req:['any'], result:'standing', tags:['basic','aggressive'] },
     kick: { name:'Kick', type:'Strike', damage:8, momentum:7, cost:0, accuracy:88, counter:'kick', counterAccuracy:82, req:['any'], result:'standing', tags:['basic'] },
-    clothesline: { name:'Clothesline', type:'Strike', damage:11, momentum:10, cost:3, accuracy:82, req:['any'], result:'grounded', tags:['basic','aggressive'] },
+    clothesline: { image:'assets/wrestlers/cody-rhodes/cards/clothesline.webp', name:'Clothesline', type:'Strike', damage:11, momentum:10, cost:3, accuracy:82, req:['any'], result:'grounded', tags:['basic','aggressive'] },
     elbow: { name:'Elbow Drop', type:'Strike', damage:10, momentum:8, cost:2, accuracy:85, req:['any'], result:'grounded', tags:['basic'] },
     grapple: { name:'Standing Grapple', type:'Grapple', damage:10, momentum:9, cost:2, accuracy:84, req:['any'], result:'grounded', tags:['basic','grapple'] },
     irishWhip: { name:'Irish Whip', type:'Control', damage:3, momentum:10, cost:0, accuracy:90, req:['any'], result:'standing', setup:'running', tags:['control'] },
@@ -57,6 +55,12 @@ window.LWC_DATA = {
     neckbreaker: { name:'Neckbreaker', type:'Grapple', damage:14, momentum:12, cost:6, accuracy:82, req:['any'], result:'grounded', tags:['grapple'] },
     backbreaker: { name:'Backbreaker', type:'Grapple', damage:15, momentum:12, cost:7, accuracy:81, req:['any'], result:'grounded', tags:['grapple','power'] },
     bulldog: { name:'Bulldog', type:'Grapple', damage:13, momentum:13, cost:5, accuracy:84, req:['any'], result:'grounded', tags:['grapple'] },
+    wheelbarrowBulldog: { image:'assets/wrestlers/cody-rhodes/cards/wheelbarrowBulldog.webp', name:'Wheelbarrow Bulldog', type:'Grapple', damage:16, momentum:15, cost:8, accuracy:84, req:['any'], result:'grounded', tags:['grapple','signature','athletic'] },
+    rearChinLock: { image:'assets/wrestlers/roman-reigns/cards/rearChinLock.webp', name:'Rear Chin-Lock', type:'Submission', damage:9, momentum:13, cost:4, accuracy:88, req:['any'], result:'grounded', tags:['submission','control'] },
+    flyingClothesline: { image:'assets/wrestlers/roman-reigns/cards/flyingClothesline.webp', name:'Flying Clothesline', type:'Strike', damage:15, momentum:14, cost:7, accuracy:83, req:['any'], result:'grounded', tags:['strike','athletic'] },
+    camelClutch: { image:'assets/wrestlers/roman-reigns/cards/camelClutch.webp', name:'Camel Clutch', type:'Submission', damage:13, momentum:16, cost:9, accuracy:81, req:['any'], result:'grounded', tags:['submission','power','control'] },
+    bellyToBackSuplex: { image:'assets/wrestlers/cody-rhodes/cards/bellyToBackSuplex.webp', name:'Belly-to-Back Suplex', type:'Grapple', damage:16, momentum:14, cost:8, accuracy:82, req:['any'], result:'grounded', tags:['grapple','suplex'] },
+    elbowBackHead: { image:'assets/wrestlers/cody-rhodes/cards/elbowBackHead.webp', name:'Elbow to the Back of the Head', type:'Strike', damage:12, momentum:11, cost:4, accuracy:86, req:['any'], result:'grounded', tags:['strike','aggressive'] },
     ddt: { name:'DDT', type:'Grapple', damage:16, momentum:13, cost:8, accuracy:80, req:['any'], result:'grounded', tags:['grapple','impact'] },
     verticalSuplex: { name:'Vertical Suplex', type:'Grapple', damage:15, momentum:13, cost:7, accuracy:83, req:['any'], result:'grounded', tags:['grapple','suplex'] },
     snapSuplex: { name:'Snap Suplex', type:'Grapple', damage:13, momentum:14, cost:5, accuracy:86, req:['any'], result:'grounded', tags:['grapple','suplex','quick'] },

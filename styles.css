@@ -158,3 +158,6 @@
 /* v0.4.1 turn-start discard phase */
 .gameCard.discardSelected{border-color:#ff5b62!important;box-shadow:0 0 0 3px #ff5b6240,0 8px 24px #0007;transform:translateY(-4px)}
 .gameCard.discardSelected::after{content:'DISCARD';position:absolute;inset:auto 8px 8px;background:#b51f2b;color:#fff;text-align:center;padding:6px;border-radius:7px;font-size:.7rem;font-weight:900;letter-spacing:.08em}
+
+/* v0.4.3 move photography */
+.gameCard.hasArt{padding:0;overflow:hidden;background:#0b0d11}.gameCard.hasArt .cardArt{height:58%;min-height:0;background-size:cover;background-position:center;position:relative}.gameCard.hasArt .cardArt::after{content:'';position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#050608e8)}.gameCard.hasArt .cardArt strong{position:absolute;z-index:1;left:8px;right:8px;bottom:8px;font-size:.78rem;line-height:1;text-transform:uppercase;text-shadow:0 2px 5px #000}.gameCard.hasArt>.type,.gameCard.hasArt>h4,.gameCard.hasArt>.requirement,.gameCard.hasArt>.combo{margin-left:9px;margin-right:9px}.gameCard.hasArt .cardStats{margin:4px 9px 9px}

@@ -2,12 +2,12 @@
 'use strict';
 const D=window.LWC_DATA,C=D.cards,W=D.wrestlers;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-let state=null,selected='austin',cpuTimer=null;
+let state=null,selected=Object.keys(W)[0],cpuTimer=null;
 const screens=['menu','select','match','result'];
 const REVERSALS=['reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl'];
 function show(id){screens.forEach(x=>$('#'+x).classList.toggle('active',x===id));window.scrollTo(0,0)}
 function clamp(n,a,b){return Math.max(a,Math.min(b,n))}
-function other(id){return id==='austin'?'rock':'austin'}
+function other(id){return Object.keys(W).find(key=>key!==id)||id}
 function stateOpponent(f){return f===state.player?state.cpu:state.player}
 function isReversal(k){return C[k]?.type==='Reversal'}
 function attackCategory(card){
@@ -17,7 +17,7 @@ function attackCategory(card){
   if(card.type==='Strike'||card.tags?.includes('strike'))return'Strike';
   return'Grapple';
 }
-function weightedLibrary(id){return W[id].library.flatMap(k=>['cover','hookLeg','rollUp','stunner','rockBottom','peoplesElbow','austinComeback','rockComeback'].includes(k)?[k]:[k,k])}
+function weightedLibrary(id){return W[id].library.flatMap(k=>['cover','hookLeg','rollUp'].includes(k)||C[k]?.finisher||C[k]?.once?[k]:[k,k])}
 function makeFighter(id){return{id,health:100,momentum:0,hand:[],discard:[],usedOnce:new Set(),guard:0,combo:null,lastCard:null}}
 function startMatch(playerId){
   clearTimeout(cpuTimer);selected=playerId;
@@ -82,8 +82,8 @@ function playability(k,f){
   if(state.possession!=='cpu'||isReversal(k))return{ok:false,why:'Not an attacking card'};
   return{ok:true,why:''};
 }
-function effectiveAccuracy(card,f,opp){let a=card.accuracy;if(card.type==='Grapple'||card.tags?.includes('grapple'))a+=(W[f.id].stats.technique-W[opp.id].stats.technique)*.12;if(card.type==='Strike')a+=(W[f.id].stats.brawling-W[opp.id].stats.brawling)*.1;if(card.type==='Signature'&&f.id==='rock')a*=W.rock.traits.signatureAccuracy;if(f.health<35)a-=6;if(f.combo===card.name||f.combo===card.id)a+=10;return clamp(Math.round(a),35,98)}
-function cardDamage(card,f,critical=false){let d=card.damage||0;if(card.type==='Strike'&&f.id==='austin')d*=W.austin.traits.strikeDamage;if(state.phase==='Finishing')d*=1.08;if(critical)d*=1.25;return Math.round(d)}
+function effectiveAccuracy(card,f,opp){let a=card.accuracy;if(card.type==='Grapple'||card.tags?.includes('grapple'))a+=(W[f.id].stats.technique-W[opp.id].stats.technique)*.12;if(card.type==='Strike')a+=(W[f.id].stats.brawling-W[opp.id].stats.brawling)*.1;if(card.type==='Signature'&&W[f.id].traits.signatureAccuracy)a*=W[f.id].traits.signatureAccuracy;if(f.health<35)a-=6;if(f.combo===card.name||f.combo===card.id)a+=10;return clamp(Math.round(a),35,98)}
+function cardDamage(card,f,critical=false){let d=card.damage||0;if(card.type==='Strike'&&W[f.id].traits.strikeDamage)d*=W[f.id].traits.strikeDamage;if(state.phase==='Finishing')d*=1.08;if(critical)d*=1.25;return Math.round(d)}
 function matchingReversalIndex(defender,attackKey){return defender.hand.findIndex(k=>beginsWithCounter(k,attackKey)&&basicPlayability(k,defender).ok)}
 function consumeCard(f,index){const key=f.hand[index];f.hand.splice(index,1);f.discard.push(key);if(C[key].once)f.usedOnce.add(key);drawToFive(f);return key}
 function transferPossession(to,reason){state.possession=to;state.pendingAttack=null;state.setup=null;state.discardPhase=false;state.discardSelected=new Set();$('#turnLabel').textContent=to==='player'?'Your possession':'CPU possession';if(reason)say(reason);if(to==='player'){beginDiscardPhase();return}renderMatch();cpuTimer=setTimeout(cpuSequence,700)}
@@ -92,7 +92,7 @@ function applyMove(actor,opp,key){
   actor.momentum=clamp(actor.momentum-card.cost,0,100);state.variety.add(key);state.turn++;
   if(!landed){actor.momentum=clamp(actor.momentum-(card.riskMomentum||Math.round(card.cost*.4)),0,100);return{landed:false,text:`${W[opp.id].shortName} counters ${card.name} and takes possession.`}}
   let dmg=cardDamage(card,actor,critical);if(opp.guard){dmg=Math.round(dmg*(1-opp.guard));opp.guard=0}opp.health=clamp(opp.health-dmg,0,100);
-  let gain=card.momentum||0;if(actor.id==='austin'&&card.tags?.includes('aggressive'))gain*=W.austin.traits.crowdFromAggression;if(actor.combo&&actor.id==='rock')gain*=W.rock.traits.comboMomentum;actor.momentum=clamp(actor.momentum+Math.round(gain),0,100);
+  let gain=card.momentum||0;if(W[actor.id].traits.crowdFromAggression&&card.tags?.includes('aggressive'))gain*=W[actor.id].traits.crowdFromAggression;if(actor.combo&&W[actor.id].traits.comboMomentum)gain*=W[actor.id].traits.comboMomentum;actor.momentum=clamp(actor.momentum+Math.round(gain),0,100);
   if(card.heal)actor.health=clamp(actor.health+card.heal,0,100);state.crowd=clamp(state.crowd+Math.round((dmg+gain+(card.crowd||0))/5),0,100);if(card.guard)actor.guard=card.guard;if(card.result&&card.result!=='same')state.position=card.result;actor.combo=card.combo?C[card.combo]?.name:null;actor.lastCard=key;if(card.finisher){state.finishers++;actor.combo=null}
   const swing=Math.round((dmg+gain*.4)/4);state.control=clamp(state.control+(actor===state.player?swing:-swing),5,95);updatePhase();
   return{landed:true,text:`${W[actor.id].shortName} ${critical?'lands a critical ': 'hits '}${card.name}${dmg?` for ${dmg} damage`:''} and keeps possession.`}
@@ -167,7 +167,7 @@ function renderMatch(){
   renderHand();renderLog();
 }
 function renderHand(){
-  const f=state.player;$('#hand').innerHTML=f.hand.map((k,i)=>{const c=C[k],selected=state.discardPhase&&state.discardSelected.has(i),p=state.discardPhase?{ok:true,why:selected?'Selected to discard':'Tap to discard'}:playability(k,f),acc=(isReversal(k)||c.counter)?counterAccuracy(c):effectiveAccuracy(c,f,state.cpu),req=state.discardPhase?p.why:p.ok?((isReversal(k)||c.counter)&&state.pendingAttack?`Counters ${C[state.pendingAttack.key].name}`:'Playable now'):p.why,combo=f.combo===c.name?'<div class="combo">COMBO READY · +10% accuracy</div>':c.combo?`<div class="combo">Sets up ${C[c.combo].name}</div>`:'';return `<button class="gameCard ${p.ok?'':'unplayable'} ${selected?'discardSelected':''}" data-card="${i}" ${p.ok?'':'disabled'}><span class="type">${c.type}</span><h4>${c.name}</h4><div class="requirement">${req}</div>${combo}<div class="cardStats"><div class="cardStat"><span>Damage</span><b>${c.damage||0}</b></div><div class="cardStat"><span>Momentum</span><b>${c.momentum>=0?'+':''}${c.momentum||0}</b></div><div class="cardStat"><span>Cost</span><b>${c.cost||0}</b></div><div class="cardStat"><span>${(isReversal(k)||c.counter)?'Counter':'Accuracy'}</span><b>${acc}%</b></div></div></button>`}).join('');
+  const f=state.player;$('#hand').innerHTML=f.hand.map((k,i)=>{const c=C[k],selected=state.discardPhase&&state.discardSelected.has(i),p=state.discardPhase?{ok:true,why:selected?'Selected to discard':'Tap to discard'}:playability(k,f),acc=(isReversal(k)||c.counter)?counterAccuracy(c):effectiveAccuracy(c,f,state.cpu),req=state.discardPhase?p.why:p.ok?((isReversal(k)||c.counter)&&state.pendingAttack?`Counters ${C[state.pendingAttack.key].name}`:'Playable now'):p.why,combo=f.combo===c.name?'<div class="combo">COMBO READY · +10% accuracy</div>':c.combo?`<div class="combo">Sets up ${C[c.combo].name}</div>`:'';return `<button class="gameCard ${p.ok?'':'unplayable'} ${selected?'discardSelected':''} ${c.image?'hasArt':''}" data-card="${i}" ${p.ok?'':'disabled'}>${c.image?`<div class="cardArt" style="background-image:url('${c.image}')"><strong>${c.name}</strong></div>`:''}<span class="type">${c.type}</span><h4>${c.name}</h4><div class="requirement">${req}</div>${combo}<div class="cardStats"><div class="cardStat"><span>Damage</span><b>${c.damage||0}</b></div><div class="cardStat"><span>Momentum</span><b>${c.momentum>=0?'+':''}${c.momentum||0}</b></div><div class="cardStat"><span>Cost</span><b>${c.cost||0}</b></div><div class="cardStat"><span>${(isReversal(k)||c.counter)?'Counter':'Accuracy'}</span><b>${acc}%</b></div></div></button>`}).join('');
   $$('[data-card]').forEach(b=>b.addEventListener('click',()=>state.discardPhase?toggleDiscard(Number(b.dataset.card)):state.possession==='player'?playerAttack(Number(b.dataset.card)):playerReverse(Number(b.dataset.card))))
 }
 function renderRoster(){$('#roster').innerHTML=Object.values(W).map(w=>`<button class="rosterCard" data-w="${w.id}"><img src="${w.portrait}"><div class="rosterInfo"><h3>${w.name}</h3><p>${w.era} persona</p><div class="stats"><span>Power ${w.stats.power}</span><span>Speed ${w.stats.speed}</span><span>Brawling ${w.stats.brawling}</span><span>Technique ${w.stats.technique}</span><span>Ring IQ ${w.stats.ringIQ}</span><span>Resilience ${w.stats.resilience}</span></div></div></button>`).join('');$$('[data-w]').forEach(b=>b.onclick=()=>startMatch(b.dataset.w))}
