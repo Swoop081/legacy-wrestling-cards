@@ -1,4 +1,4 @@
-# LEGACY Wrestling Cards v0.3.1
+# LEGACY Wrestling Cards v0.3.2
 
 Mobile single-screen match layout update.
 
@@ -8,3 +8,8 @@ Mobile single-screen match layout update.
 - Card hand occupies the lower play area and scrolls only horizontally.
 - Match Feed is collapsed behind an expandable panel.
 - Core v0.3.0 card engine remains unchanged.
+
+## v0.3.2 dead-hand protection
+- The game revalidates the player's hand whenever the ring position changes.
+- If no card can be played, one slot is automatically replaced with Brace and Block.
+- Brace and Block is legal from every position and costs zero momentum, so a match cannot stall.

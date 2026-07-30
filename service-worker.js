@@ -1,4 +1,4 @@
-const CACHE='legacy-wrestling-cards-0.3.1';
+const CACHE='legacy-wrestling-cards-0.3.2';
 const CORE=['./','index.html','styles.css','data.js','game.js','update-manager.js','manifest.webmanifest','assets/branding/lpw-logo-main-menu-1200.webp','assets/branding/lpw-logo-compact-400.webp','assets/wrestlers/stone-cold-steve-austin/portrait.webp','assets/wrestlers/the-rock/portrait.webp'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)))});
 self.addEventListener('activate',e=>e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))])));

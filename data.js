@@ -1,5 +1,5 @@
 window.LWC_DATA = {
-  version: '0.3.0',
+  version: '0.3.2',
   wrestlers: {
     austin: {
       id: 'austin', name: '"Stone Cold" Steve Austin', shortName: 'Stone Cold', era: '1999',
