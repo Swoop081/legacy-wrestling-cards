@@ -1,3 +1,10 @@
-# LEGACY Wrestling Cards v0.3.0
+# LEGACY Wrestling Cards v0.3.1
 
-New card-based match engine prototype. Includes only 1999 Stone Cold Steve Austin and 1999 The Rock, their portrait assets, fixed wrestler-specific card libraries, five-card hands, health, momentum, crowd, position, combos, finishers, pins, kick-outs, comeback cards, match phases and ratings. Move artwork has been removed intentionally.
+Mobile single-screen match layout update.
+
+- Match play is locked to the phone viewport with no page scrolling.
+- Compact two-wrestler HUD remains visible at the top.
+- Control, position, crowd and latest commentary remain visible.
+- Card hand occupies the lower play area and scrolls only horizontally.
+- Match Feed is collapsed behind an expandable panel.
+- Core v0.3.0 card engine remains unchanged.
