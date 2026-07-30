@@ -98,7 +98,17 @@ function wrestlerImageCandidates(w,type='full'){
  const config=characterImageConfig(w),set=config?.assets;
  const list=[];
  if(set)list.push(set[type]||set.full);
- list.push(`assets/${w.id}.webp`,`assets/${w.id}.webp`,`assets/wrestlers/${w.id}.webp`,`assets/wrestlers/${w.id}.webp`);
+ // LEGACY Wrestling Cards stores one portrait in the wrestler folder and
+ // mirrors it into full/victory slots. Search those real package paths first.
+ if(w?.image)list.push(w.image);
+ list.push(
+  `assets/wrestlers/${w.id}/${type}.webp`,
+  `assets/wrestlers/${w.id}/portrait.webp`,
+  `assets/wrestlers/${w.id}/full.webp`,
+  `assets/wrestlers/${w.id}/victory.webp`,
+  `assets/wrestlers/${w.id}.webp`,
+  `assets/${w.id}.webp`
+ );
  return [...new Set(list.filter(Boolean))];
 }
 function wrestlerImage(w,type='full'){return wrestlerImageCandidates(w,type)[0]}
