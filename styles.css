@@ -154,3 +154,7 @@
 }
 .handActions{display:flex;gap:8px;align-items:center}.primary.compact{padding:10px 14px;font-size:.82rem;background:var(--gold);color:#111}.gameCard .type{white-space:nowrap}.gameCard[data-reversal]{border-color:#4fa6ff}
 @media(max-width:850px){#match .handActions{gap:6px}#match .handActions button{padding:8px 10px;font-size:.72rem}}
+
+/* v0.4.1 turn-start discard phase */
+.gameCard.discardSelected{border-color:#ff5b62!important;box-shadow:0 0 0 3px #ff5b6240,0 8px 24px #0007;transform:translateY(-4px)}
+.gameCard.discardSelected::after{content:'DISCARD';position:absolute;inset:auto 8px 8px;background:#b51f2b;color:#fff;text-align:center;padding:6px;border-radius:7px;font-size:.7rem;font-weight:900;letter-spacing:.08em}

@@ -1,5 +1,5 @@
 window.LWC_DATA = {
-  version: '0.4.0',
+  version: '0.4.1',
   wrestlers: {
     austin: {
       id: 'austin', name: '"Stone Cold" Steve Austin', shortName: 'Stone Cold', era: '1999',
@@ -25,8 +25,8 @@ window.LWC_DATA = {
     }
   },
   cards: {
-    punch: { name:'Punch', type:'Strike', damage:7, momentum:8, cost:0, accuracy:92, req:['any'], result:'standing', tags:['basic','aggressive'] },
-    kick: { name:'Kick', type:'Strike', damage:8, momentum:7, cost:0, accuracy:88, req:['any'], result:'standing', tags:['basic'] },
+    punch: { name:'Punch', type:'Strike', damage:7, momentum:8, cost:0, accuracy:92, counter:'punch', counterAccuracy:84, req:['any'], result:'standing', tags:['basic','aggressive'] },
+    kick: { name:'Kick', type:'Strike', damage:8, momentum:7, cost:0, accuracy:88, counter:'kick', counterAccuracy:82, req:['any'], result:'standing', tags:['basic'] },
     clothesline: { name:'Clothesline', type:'Strike', damage:11, momentum:10, cost:3, accuracy:82, req:['any'], result:'grounded', tags:['basic','aggressive'] },
     elbow: { name:'Elbow Drop', type:'Strike', damage:10, momentum:8, cost:2, accuracy:85, req:['any'], result:'grounded', tags:['basic'] },
     grapple: { name:'Standing Grapple', type:'Grapple', damage:10, momentum:9, cost:2, accuracy:84, req:['any'], result:'grounded', tags:['basic','grapple'] },
