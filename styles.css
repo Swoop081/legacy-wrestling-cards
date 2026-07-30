@@ -498,3 +498,149 @@
     width:min(44vw,162px);
   }
 }
+
+.autoCounter{background:linear-gradient(135deg,#7b2cff,#b45cff);border:1px solid #d9b7ff;color:#fff;box-shadow:0 0 18px rgba(159,77,255,.38);font-weight:800}
+.autoCounter:not([hidden]){animation:autoCounterPulse 1.15s ease-in-out infinite}
+@keyframes autoCounterPulse{50%{transform:translateY(-1px);box-shadow:0 0 26px rgba(159,77,255,.62)}}
+
+
+/* v0.7.1 wrestler identity, hand navigation and finish presentation */
+.handNav{display:flex;align-items:center;gap:7px;color:#aeb8c8;font-size:.72rem;font-weight:800;white-space:nowrap}.handNav .ghost{padding:7px 9px;font-size:.68rem}
+.countOverlay{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:radial-gradient(circle,#101725d9,#020306f2);backdrop-filter:blur(7px)}.countOverlay[hidden]{display:none}.countOverlay>div{font-size:clamp(3rem,18vw,8rem);font-weight:1000;letter-spacing:.04em;color:#fff;text-shadow:0 0 22px #f2c24f,0 8px 30px #000}.countOverlay>div.pop{animation:countPop .55s cubic-bezier(.2,.9,.25,1.2)}.submissionOverlay>div{font-size:clamp(2rem,11vw,5rem);color:#92f5b6;text-shadow:0 0 22px #20c764,0 8px 30px #000}@keyframes countPop{0%{opacity:0;transform:scale(.55)}65%{opacity:1;transform:scale(1.13)}100%{transform:scale(1)}}
+@media(max-width:850px){#match .handHeader{display:grid;grid-template-columns:1fr auto;grid-template-areas:'title nav' 'actions actions';gap:5px}#match .handHeader>div:first-child{grid-area:title}#match .handNav{grid-area:nav;justify-self:end}#match .handActions{grid-area:actions;justify-content:flex-end}#match .hand{scroll-snap-type:x mandatory;scroll-padding-left:4px}#match .gameCard{scroll-snap-align:start}}
+
+
+/* v0.7.3 roster trading-card selection and deck viewer */
+#select,#deckView{background:radial-gradient(circle at top,#23314a 0,#111824 38%,#090c11 82%)}
+#select header,#deckView header{max-width:1280px}
+#select h2,#deckView h2{font-size:clamp(2rem,4vw,3.5rem);letter-spacing:-.03em;margin:0 auto;text-align:center}
+.roster{grid-template-columns:repeat(auto-fit,minmax(290px,360px));gap:28px;max-width:1280px;width:100%}
+.rosterTradeCard{position:relative;background:linear-gradient(180deg,#232c39,#121821 62%,#0d131b);border:1px solid #44526a;border-radius:26px;overflow:hidden;color:#fff;box-shadow:inset 0 1px rgba(255,255,255,.1),0 18px 40px rgba(0,0,0,.45);padding:14px;display:flex;flex-direction:column;gap:12px}
+.rosterTradeCard::before{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.06),transparent 38%,transparent 70%,rgba(255,255,255,.03));pointer-events:none}
+.rosterTradeTop{display:flex;justify-content:space-between;gap:8px;position:relative;z-index:1}
+.rosterChip{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:rgba(8,12,18,.72);border:1px solid rgba(255,255,255,.12);color:#d9e3f2;font-size:.72rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.rosterChip.overall{background:linear-gradient(135deg,#e7c04e,#8d5f11);color:#131008;border-color:#f7d46d}
+.rosterTradeArt{position:relative;border-radius:20px;overflow:hidden;min-height:370px;background:radial-gradient(circle at 50% 10%,#21304f,#0d1118 76%);display:flex;align-items:flex-end;justify-content:center;padding:18px 10px 0}
+.rosterTradeArt::after{content:'';position:absolute;inset:auto 0 0;height:40%;background:linear-gradient(to top,rgba(6,8,12,.95),transparent)}
+.rosterTradeArt img{position:relative;z-index:1;width:100%;height:100%;max-height:390px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 18px 22px rgba(0,0,0,.52))}
+.rosterTradeName{position:relative;z-index:1;margin-top:-8px;padding:0 4px}
+.rosterTradeName h3{margin:0;font-size:2rem;line-height:1.02;letter-spacing:-.03em}
+.rosterTradeName p{margin:6px 0 0;color:#b7c2d1;font-size:.95rem}
+.rosterTradeStats{position:relative;z-index:1}
+.rosterTradeActions{position:relative;z-index:1;display:flex;gap:10px}
+.rosterTradeActions button{flex:1}
+.readonlyCard{cursor:default;pointer-events:none}
+.readonlyCard:hover{transform:none;border-color:inherit}
+.deckHeader{align-items:center}
+#deckHero{max-width:1280px;margin:26px auto 16px;display:flex;justify-content:center}.deckHero .featured{width:min(100%,360px)}
+.deckSummary{max-width:1280px;margin:0 auto 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.deckSummaryCard{background:linear-gradient(180deg,#1c2431,#10161f);border:1px solid #3d4860;border-radius:18px;padding:14px 12px;text-align:center;box-shadow:inset 0 1px rgba(255,255,255,.06),0 10px 24px rgba(0,0,0,.28)}
+.deckSummaryCard b{display:block;font-size:1.55rem;color:#fff}.deckSummaryCard span{display:block;margin-top:4px;color:#b9c5d6;font-size:.8rem}
+.deckSections{max-width:1280px;margin:0 auto 28px;display:grid;gap:22px}
+.deckSection{background:linear-gradient(180deg,rgba(16,22,31,.96),rgba(10,14,20,.96));border:1px solid #39465d;border-radius:24px;padding:16px;box-shadow:0 12px 30px rgba(0,0,0,.28)}
+.deckSectionTitle{display:flex;justify-content:space-between;align-items:center;font-size:1.2rem;font-weight:900;letter-spacing:-.02em;margin-bottom:14px}.deckSectionTitle span{font-size:.9rem;color:#b9c5d6;background:rgba(255,255,255,.08);padding:6px 10px;border-radius:999px}
+.deckGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.deckGrid .gameCard{min-height:290px}
+.deckGrid .gameCard h4{font-size:.92rem}
+.deckGrid .gameCard .cardStat b{font-size:.88rem}
+.deckNote{color:#cfd7e4!important;background:rgba(8,12,18,.68);padding:4px 6px;border-radius:8px}
+@media(max-width:850px){
+  #select header,#deckView header{display:grid;grid-template-columns:auto 1fr;grid-template-areas:'back title' 'choose choose';align-items:center;gap:12px}
+  #deckBackBtn,.screen#select header .ghost{grid-area:back;justify-self:start}
+  #select h2,#deckView h2{grid-area:title;font-size:clamp(1.65rem,8vw,2.45rem);text-align:left}
+  #deckChooseBtn{grid-area:choose;justify-self:stretch}
+  .roster{margin:26px auto 12px;gap:18px}
+  .rosterTradeCard{padding:12px;border-radius:22px}
+  .rosterTradeArt{min-height:290px;padding-top:10px}
+  .rosterTradeArt img{max-height:300px}
+  .rosterTradeName h3{font-size:1.55rem}
+  .rosterTradeActions{flex-direction:row}
+  .deckSummary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .deckGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .deckGrid .gameCard{min-height:250px}
+}
+
+
+/* v0.7.5 shared crowd stage and borderless wrestler portraits */
+#match .arena{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  border-radius:22px;
+  padding:0 12px 10px;
+}
+#match .arena::before{
+  content:'';
+  position:absolute;
+  z-index:-2;
+  top:0;
+  left:0;
+  right:0;
+  height:190px;
+  background:
+    linear-gradient(to bottom,rgba(5,8,13,.08) 0%,rgba(5,8,13,.12) 64%,rgba(8,11,16,.96) 100%),
+    url('https://i.redd.it/330gtntg11c71.jpg') center 43%/cover no-repeat;
+  filter:saturate(.9) contrast(1.05) brightness(.72);
+}
+#match .arena::after{
+  content:'';
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  background:linear-gradient(90deg,rgba(10,16,28,.3),transparent 25%,transparent 75%,rgba(10,16,28,.3));
+  pointer-events:none;
+}
+#match .fighter{
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  border-radius:0!important;
+  padding:0 8px 8px!important;
+  overflow:visible!important;
+}
+#match .fighter img{
+  display:block;
+  height:190px!important;
+  width:100%!important;
+  object-fit:contain!important;
+  object-position:center bottom!important;
+  transform:none!important;
+  transform-origin:center bottom!important;
+  margin:0 auto!important;
+  filter:drop-shadow(0 10px 10px rgba(0,0,0,.78))!important;
+}
+#match .fighter>div{
+  position:relative;
+  z-index:2;
+  margin-top:0;
+  padding:7px 6px 0;
+  background:linear-gradient(to bottom,rgba(8,11,16,.98),rgba(8,11,16,.82));
+  border-radius:0 0 14px 14px;
+}
+#match .fighter h2{
+  margin:0 0 7px!important;
+  text-shadow:0 2px 5px #000;
+}
+#match .centre{
+  position:relative;
+  z-index:3;
+}
+@media(max-width:850px){
+  #match .arena{
+    margin-top:6px;
+    padding:0 5px 5px;
+    gap:0 8px;
+    border-radius:18px;
+  }
+  #match .arena::before{height:170px;background-position:center 42%}
+  #match .fighter{padding:0 2px 5px!important;gap:0!important}
+  #match .fighter img{height:170px!important}
+  #match .fighter>div{padding:6px 5px 0}
+  #match .fighter h2{font-size:.98rem!important;margin-bottom:6px!important}
+  #match .centre{padding-top:4px!important}
+}
+@media(max-width:390px){
+  #match .arena::before{height:154px}
+  #match .fighter img{height:154px!important}
+  #match .fighter h2{font-size:.88rem!important}
+}

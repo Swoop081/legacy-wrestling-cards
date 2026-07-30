@@ -1,14 +1,18 @@
 window.LWC_DATA = {
-  version: '0.6.2',
+  version: '0.7.5',
   wrestlers: {
     cody: {
       id: 'cody', name: 'Cody Rhodes', shortName: 'Cody', era: '2026',
       portrait: 'assets/wrestlers/cody-rhodes/portrait.webp',
       stats: { power: 88, speed: 91, technique: 94, brawling: 88, charisma: 98, ringIQ: 95, resilience: 96 },
-      traits: { crowdGain: 1.22, comboMomentum: 1.18, reversalBonus: 0.07, comeback: 'Finish the Story' },
+      traits: { crowdGain: 1.22, comboMomentum: 1.18, reversalBonus: 0.04, comeback: 'Finish the Story' },
+      ai: { style:'Versatile Showman', weights:{ Aerial:1.35, Grapple:1.18, Strike:1.0, Submission:0.55, Control:1.05, Action:1.2 }, signatureBias:1.35, pinAggression:0.95 },
       library: [
-        'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','chop','headbutt','shoulderTackle','dropkick','shotgunDropkick','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','wheelbarrowBulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','germanSuplex','piledriver','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','highCrossBody','mountedPunches','elbowBackHead','disasterKick','codyCutter','crossRhodes','crowdSupport','catchBreath','fireUp','scoutOpponent'
+        'punch','kick','forearm','chop','clothesline','dropkick','shotgunDropkick','elbowBackHead',
+        'hipToss','armDrag','bulldog','wheelbarrowBulldog','ddt','snapSuplex','bellyToBackSuplex',
+        'divingElbow','crossbody','highCrossBody','disasterKick','codyCutter','crossRhodes',
+        'spinebuster','backBodyDrop','powerslam','jawbreaker','standingSwitch',
+        'crowdSupport','catchBreath','fireUp','scoutOpponent'
       ]
     },
     roman: {
@@ -16,9 +20,13 @@ window.LWC_DATA = {
       portrait: 'assets/wrestlers/roman-reigns/portrait.webp',
       stats: { power: 97, speed: 86, technique: 90, brawling: 96, charisma: 99, ringIQ: 96, resilience: 98 },
       traits: { strikeDamage: 1.12, crowdFromAggression: 1.12, riskPenalty: 0.82, comeback: 'Tribal Chief Comeback' },
+      ai: { style:'Powerhouse Striker', weights:{ Strike:1.45, Grapple:1.25, Submission:1.05, Aerial:0.05, Control:0.9, Action:0.85 }, signatureBias:1.45, pinAggression:1.12 },
       library: [
-        'punch','kick','clothesline','flyingClothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','headbutt','shoulderTackle','dropkick','shotgunDropkick','bigBoot','kneeLift','bodySlam','scoopSlam','neckbreaker','backbreaker','ddt','verticalSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','powerbomb','legDrop','kneeDrop','rearChinLock','camelClutch','sleeperHold','bostonCrab','crossbody','highCrossBody','supermanPunch','spear','guillotine','crowdSupport','catchBreath','fireUp','scoutOpponent'
+        'punch','kick','forearm','headbutt','clothesline','shoulderTackle','bigBoot','kneeLift','elbowBackHead',
+        'bodySlam','scoopSlam','backbreaker','ddt','verticalSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','powerbomb',
+        'rearChinLock','camelClutch','sleeperHold','guillotine','supermanPunch','spear',
+        'spinebuster','backBodyDrop','powerslam','jawbreaker','standingSwitch',
+        'crowdSupport','catchBreath','fireUp','scoutOpponent'
       ]
     }
   },
@@ -32,11 +40,11 @@ window.LWC_DATA = {
     dragCorner: { name:'Drive Into the Corner', type:'Control', damage:4, momentum:9, cost:1, accuracy:88, req:['any'], result:'corner', tags:['control'] },
     groundOpponent: { name:'Ground the Opponent', type:'Control', damage:5, momentum:8, cost:0, accuracy:90, req:['any'], result:'grounded', tags:['control'] },
     block: { name:'Brace and Block', type:'Defence', damage:0, momentum:8, cost:0, accuracy:100, req:['any'], result:'same', guard:0.35, tags:['defence'] },
-    reverseStrike: { name:'Reverse Strike', type:'Reversal', reverse:'Strike', damage:4, momentum:10, cost:0, accuracy:78, req:['any'], result:'standing', tags:['reversal','strike'] },
-    reverseGrapple: { name:'Reverse Grapple', type:'Reversal', reverse:'Grapple', damage:5, momentum:10, cost:0, accuracy:76, req:['any'], result:'standing', tags:['reversal','grapple'] },
-    reverseAerial: { name:'Reverse Aerial Attack', type:'Reversal', reverse:'Aerial', damage:6, momentum:12, cost:0, accuracy:74, req:['any'], result:'grounded', tags:['reversal','aerial'] },
-    reverseSubmission: { name:'Escape Submission', type:'Reversal', reverse:'Submission', damage:2, momentum:9, cost:0, accuracy:80, req:['any'], result:'standing', tags:['reversal','submission'] },
-    reverseControl: { name:'Reverse Control Move', type:'Reversal', reverse:'Control', damage:3, momentum:9, cost:0, accuracy:79, req:['any'], result:'standing', tags:['reversal','control'] },
+    spinebuster: { name:'Spinebuster', type:'Grapple', reverse:'Strike', damage:14, momentum:12, cost:6, counterCost:0, req:['any'], result:'grounded', tags:['grapple','power','counter'] },
+    backBodyDrop: { name:'Back Body Drop', type:'Grapple', reverse:'Grapple', damage:12, momentum:11, cost:4, counterCost:0, req:['any'], result:'grounded', tags:['grapple','counter'] },
+    powerslam: { name:'Powerslam', type:'Grapple', reverse:'Aerial', damage:15, momentum:13, cost:7, counterCost:0, req:['any'], result:'grounded', tags:['grapple','power','counter'] },
+    jawbreaker: { name:'Jawbreaker', type:'Strike', reverse:'Submission', damage:10, momentum:10, cost:3, counterCost:0, req:['any'], result:'standing', tags:['strike','counter'] },
+    standingSwitch: { name:'Standing Switch', type:'Grapple', reverse:'Control', damage:7, momentum:12, cost:1, counterCost:0, req:['any'], result:'standing', tags:['grapple','technical','counter'] },
     cover: { name:'Cover', type:'Pin', damage:0, momentum:0, cost:0, accuracy:100, req:['any'], result:'grounded', pinBonus:0, tags:['pin'] },
     hookLeg: { name:'Hook the Leg', type:'Pin', damage:0, momentum:0, cost:8, accuracy:100, req:['any'], result:'grounded', pinBonus:12, tags:['pin'] },
     rollUp: { name:'Desperate Roll-Up', type:'Pin', damage:0, momentum:-5, cost:5, accuracy:72, req:['any'], result:'grounded', pinBonus:18, surprise:true, tags:['pin','risk'] },
@@ -56,7 +64,7 @@ window.LWC_DATA = {
     neckbreaker: { name:'Neckbreaker', type:'Grapple', damage:14, momentum:12, cost:6, accuracy:82, req:['any'], result:'grounded', tags:['grapple'] },
     backbreaker: { name:'Backbreaker', type:'Grapple', damage:15, momentum:12, cost:7, accuracy:81, req:['any'], result:'grounded', tags:['grapple','power'] },
     bulldog: { name:'Bulldog', type:'Grapple', damage:13, momentum:13, cost:5, accuracy:84, req:['any'], result:'grounded', tags:['grapple'] },
-    wheelbarrowBulldog: { image:'assets/wrestlers/cody-rhodes/cards/wheelbarrowBulldog.webp', name:'Wheelbarrow Bulldog', type:'Grapple', damage:16, momentum:15, cost:8, accuracy:84, req:['any'], result:'grounded', tags:['grapple','signature','athletic'] },
+    wheelbarrowBulldog: { image:'assets/wrestlers/cody-rhodes/cards/wheelbarrowBulldog.webp', name:'Wheelbarrow Bulldog', type:'Grapple', damage:16, momentum:15, cost:8, accuracy:84, req:['any'], result:'grounded', tags:['grapple','athletic'] },
     rearChinLock: { image:'assets/wrestlers/roman-reigns/cards/rearChinLock.webp', name:'Rear Chin-Lock', type:'Submission', damage:9, momentum:13, cost:4, accuracy:88, req:['any'], result:'grounded', tags:['submission','control'] },
     flyingClothesline: { image:'assets/wrestlers/roman-reigns/cards/flyingClothesline.webp', name:'Flying Clothesline', type:'Strike', damage:15, momentum:14, cost:7, accuracy:83, req:['any'], result:'grounded', tags:['strike','athletic'] },
     camelClutch: { image:'assets/wrestlers/roman-reigns/cards/camelClutch.webp', name:'Camel Clutch', type:'Submission', damage:13, momentum:16, cost:9, accuracy:81, req:['any'], result:'grounded', tags:['submission','power','control'] },
@@ -80,7 +88,7 @@ window.LWC_DATA = {
     highCrossBody: { image:'assets/cards/common/highCrossBody.webp', name:'High Cross Body', type:'Aerial', damage:16, momentum:16, cost:9, accuracy:78, req:['any'], result:'grounded', tags:['aerial','athletic','high-risk'] },
     topRopeSplash: { name:'Top-Rope Splash', type:'Aerial', damage:20, momentum:16, cost:14, accuracy:72, req:['any'], result:'grounded', riskMomentum:8, tags:['aerial','high-risk'] },
 
-    mountedPunches: { image:'assets/wrestlers/cody-rhodes/cards/mountedPunches.webp', name:'Mounted Punches', type:'Signature', damage:13, momentum:13, cost:7, accuracy:89, req:['any'], result:'grounded', tags:['signature','aggressive'] },
+    mountedPunches: { image:'assets/wrestlers/cody-rhodes/cards/mountedPunches.webp', name:'Mounted Punches', type:'Strike', damage:13, momentum:13, cost:7, accuracy:89, req:['any'], result:'grounded', tags:['strike','aggressive'] },
 
 
     disasterKick: { name:'Disaster Kick', type:'Aerial', damage:17, momentum:15, cost:13, result:'grounded', tags:['signature','aerial','athletic'] },
@@ -88,10 +96,10 @@ window.LWC_DATA = {
     crossRhodes: { name:'Cross Rhodes', type:'Grapple', damage:30, momentum:0, crowd:20, cost:42, result:'grounded', finisher:true, pinBonus:36, tags:['finisher','grapple'] },
     supermanPunch: { name:'Superman Punch', type:'Strike', damage:20, momentum:17, cost:17, result:'grounded', tags:['signature','strike','impact'] },
     spear: { name:'Spear', type:'Strike', damage:31, momentum:0, crowd:20, cost:42, result:'grounded', finisher:true, pinBonus:37, tags:['finisher','strike'] },
-    guillotine: { name:'Guillotine Choke', type:'Submission', damage:27, momentum:0, crowd:16, cost:38, result:'grounded', finisher:true, pinBonus:33, tags:['finisher','submission'] },
-    crowdSupport: { name:'Crowd Support', type:'Action', damage:0, momentum:2, cost:0, result:'same', tags:['action','crowd'] },
-    catchBreath: { name:'Catch Your Breath', type:'Action', damage:0, momentum:4, heal:3, cost:0, result:'same', tags:['action','recovery'] },
-    fireUp: { name:'Fire Up', type:'Action', damage:0, momentum:6, crowd:4, cost:0, result:'same', tags:['action','crowd'] },
-    scoutOpponent: { name:'Scout the Opponent', type:'Action', damage:0, momentum:3, guard:0.2, cost:0, result:'same', tags:['action','defence'] }
+    guillotine: { name:'Guillotine Choke', type:'Submission', damage:23, momentum:15, crowd:14, cost:24, result:'grounded', pinBonus:18, tags:['signature','submission'] },
+    crowdSupport: { name:'Crowd Support', type:'Action', damage:0, momentum:8, crowd:10, cost:0, result:'same', tags:['action','crowd'] },
+    catchBreath: { name:'Catch Your Breath', type:'Action', damage:0, momentum:5, heal:10, cost:0, result:'same', endPossession:true, tags:['action','recovery'] },
+    fireUp: { name:'Fire Up', type:'Action', damage:0, momentum:10, crowd:8, cost:0, result:'same', tags:['action','crowd'] },
+    scoutOpponent: { name:'Scout the Opponent', type:'Action', damage:0, momentum:5, guard:0.35, cost:0, result:'same', tags:['action','defence'] }
   }
 };
