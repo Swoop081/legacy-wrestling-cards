@@ -241,3 +241,87 @@
   #match .gameCard.hasArt .cardArt strong{bottom:43%;font-size:.64rem}
   #match .gameCard.hasArt>.requirement{font-size:.54rem}
 }
+
+/* v0.4.6 clean full-art card hierarchy */
+.gameCard.hasArt{
+  padding:8px;
+  border-width:3px;
+  background:#050608;
+}
+.gameCard.hasArt .cardArt{
+  inset:0;
+  background-size:cover;
+  background-position:center;
+}
+.gameCard.hasArt .cardArt::after{
+  background:linear-gradient(to bottom,rgba(0,0,0,.86) 0%,rgba(0,0,0,.38) 17%,rgba(0,0,0,0) 38%,rgba(0,0,0,.08) 66%,rgba(0,0,0,.9) 86%,rgba(0,0,0,.98) 100%);
+}
+.gameCard.hasArt>h4{
+  display:block;
+  position:relative;
+  z-index:2;
+  margin:0;
+  padding:5px 6px;
+  border-radius:6px;
+  background:rgba(5,6,8,.78);
+  color:#fff;
+  font-size:.78rem;
+  line-height:1.08;
+  text-align:left;
+  text-shadow:0 2px 4px #000;
+  backdrop-filter:blur(2px);
+}
+.gameCard.hasArt>.requirement,
+.gameCard.hasArt>.combo,
+.gameCard.hasArt>.risk{
+  z-index:2;
+  margin:4px 0 0;
+  padding:4px 6px;
+  font-size:.52rem;
+  line-height:1.1;
+  background:rgba(5,6,8,.7);
+}
+.gameCard.hasArt>.requirement{margin-top:4px;margin-bottom:auto}
+.gameCard.hasArt .cardStats{
+  z-index:2;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:3px;
+  margin:0;
+}
+.gameCard.hasArt .cardStat{
+  min-width:0;
+  padding:4px 2px;
+  border-radius:5px;
+  text-align:center;
+  background:rgba(5,6,8,.88);
+}
+.gameCard.hasArt .cardStat span{
+  display:block;
+  font-size:.43rem;
+  line-height:1;
+  letter-spacing:.04em;
+}
+.gameCard.hasArt .cardStat b{
+  display:block;
+  margin-top:2px;
+  font-size:.66rem;
+  line-height:1;
+}
+.gameCard>.type{display:none}
+.gameCard.type-strike{border-color:#ef3d45}
+.gameCard.type-submission{border-color:#34b66a}
+.gameCard.type-aerial{border-color:#3d8df5}
+.gameCard.type-grapple{border-color:#f28c28}
+.gameCard.type-strike.discardSelected,
+.gameCard.type-submission.discardSelected,
+.gameCard.type-aerial.discardSelected,
+.gameCard.type-grapple.discardSelected{box-shadow:0 0 0 3px #ff5b6240,0 8px 24px #0007}
+@media(max-width:850px){
+  #match .gameCard.hasArt{padding:7px}
+  #match .gameCard.hasArt>h4{font-size:.7rem;padding:4px 5px}
+  #match .gameCard.hasArt>.requirement{font-size:.48rem}
+  #match .gameCard.hasArt .cardStat{padding:3px 1px}
+  #match .gameCard.hasArt .cardStat span{font-size:.39rem}
+  #match .gameCard.hasArt .cardStat b{font-size:.6rem}
+}
