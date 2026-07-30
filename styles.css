@@ -352,3 +352,33 @@
   #match .gameCard h4{font-size:.86rem}
   #match .gameCard .cardStats{grid-template-columns:repeat(3,1fr)}
 }
+
+/* v0.6.1 premium mobile presentation */
+.gameCard.is-signature{box-shadow:0 0 0 1px #64c9ff88,0 0 22px #2b8fff80,0 12px 28px #000b}
+.gameCard.is-finisher{box-shadow:0 0 0 1px #ffd65a99,0 0 28px #ffc933b8,0 12px 30px #000c;animation:finisherPulse 1.55s ease-in-out infinite}
+@keyframes finisherPulse{50%{filter:brightness(1.16);box-shadow:0 0 0 2px #ffe47a,0 0 38px #ffc400d6,0 12px 30px #000c}}
+.playAnimation{position:fixed;z-index:9999;left:50%;top:54%;width:min(62vw,310px);aspect-ratio:5/7;transform:translate(-50%,85vh) scale(.75) rotate(-5deg);opacity:0;border:4px solid #596273;border-radius:20px;background:linear-gradient(145deg,#252d3a,#0b0e14);overflow:hidden;box-shadow:0 30px 80px #000;pointer-events:none;transition:transform .5s cubic-bezier(.2,.9,.2,1),opacity .22s}
+.playAnimation.owner-cpu{transform:translate(-50%,-85vh) scale(.75) rotate(5deg)}
+.playAnimation.active{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}
+.playAnimation.land{transform:translate(-50%,-50%) scale(.52);opacity:.15}
+.playAnimationArt{position:absolute;inset:0;background-size:contain;background-position:center;background-repeat:no-repeat}
+.playAnimation strong{position:absolute;top:12px;left:12px;right:12px;padding:10px 12px;background:#05070bd9;border-radius:10px;font-size:1.2rem;z-index:2}
+.playAnimation.is-signature{border-color:#4daeff;box-shadow:0 0 45px #258dff,0 30px 80px #000}
+.playAnimation.is-finisher{border-color:#ffd34d;box-shadow:0 0 55px #ffc400,0 30px 80px #000}
+@media(max-width:850px){
+  #match{background:radial-gradient(circle at 50% -10%,#243653 0,#101722 38%,#070a0f 76%)}
+  #match .matchHeader{padding:3px 2px 7px;border-bottom:1px solid #ffffff16}
+  #match .arena{margin:10px auto 6px;gap:8px}
+  #match .fighter{background:linear-gradient(180deg,#1c2431e8,#10151de8);border-color:#4b5870;border-radius:20px;box-shadow:inset 0 1px #ffffff12,0 10px 28px #0007}
+  #match .fighter img{height:116px;width:100%;object-fit:contain;filter:drop-shadow(0 8px 10px #0009)}
+  #match .message{background:linear-gradient(90deg,#151c27,#0d1219);border-left-width:4px;box-shadow:0 8px 22px #0007}
+  #match .handHeader{margin-top:10px}
+  #match .hand{gap:12px;padding:8px 14px 13px;scroll-padding-left:14px}
+  #match .gameCard{flex-basis:min(70vw,275px);min-height:385px;border-radius:20px;box-shadow:inset 0 1px #ffffff16,0 14px 30px #0009}
+  #match #playedPile{filter:drop-shadow(0 12px 18px #0009)}
+}
+@media(max-width:520px){
+  #match .fighter img{height:124px;transform:scale(1.12)}
+  #match .fighter h2{font-size:1rem;margin-top:3px}
+  #match .gameCard{flex-basis:72vw;min-height:390px}
+}

@@ -58,14 +58,30 @@ function playability(k,f){
 }
 function sortHand(f){
   const order=f.hand.map((k,i)=>({k,i,p:playability(k,f).ok}));
-  order.sort((a,b)=>Number(b.p)-Number(a.p)||a.i-b.i);f.hand=order.map(x=>x.k);
+  order.sort((a,b)=>{
+    const ap=Number(a.p),bp=Number(b.p); if(bp!==ap)return bp-ap;
+    const ac=C[a.k],bc=C[b.k];
+    const apr=ap&&ac?.finisher?3:ap&&ac?.tags?.includes('signature')?2:0;
+    const bpr=bp&&bc?.finisher?3:bp&&bc?.tags?.includes('signature')?2:0;
+    return bpr-apr||a.i-b.i;
+  });f.hand=order.map(x=>x.k);
 }
-function useCard(f,index){const key=f.hand.splice(index,1)[0];f.discard.push(key);if(C[key]?.once)f.usedOnce.add(key);drawCard(f);return key}
+function useCard(f,index){const key=f.hand.splice(index,1)[0];f.discard.push(key);if(C[key]?.once)f.usedOnce.add(key);if(f.hand.length<5)drawCard(f);return key}
 function defenderDraw(defender,attackKey){
   const forceReversal=opponentOf(defender).chain>=3;
   const pref=forceReversal?(k=>beginsWithCounter(k,attackKey)):null;
-  drawCard(defender,pref);sortHand(defender);
+  if(defender.hand.length<5)drawCard(defender,pref);sortHand(defender);
 }
+
+function animatePlayedCard(key,owner,done){
+  const c=C[key],stage=document.createElement('div');
+  stage.className=`playAnimation owner-${owner} type-${String(c.type||'other').toLowerCase()} ${c.finisher?'is-finisher':c.tags?.includes('signature')?'is-signature':''}`;
+  stage.innerHTML=`${c.image?`<div class="playAnimationArt" style="background-image:url('${c.image}')"></div>`:''}<strong>${c.name}</strong>`;
+  document.body.appendChild(stage);
+  requestAnimationFrame(()=>stage.classList.add('active'));
+  setTimeout(()=>{stage.classList.add('land');setTimeout(()=>{stage.remove();done?.()},220)},520);
+}
+
 function pushPile(key,owner,status='pending'){state.pile.push({key,owner,status,id:Date.now()+Math.random()});state.pile=state.pile.slice(-6);renderPile()}
 function setPileStatus(status){if(state.pile.length)state.pile[state.pile.length-1].status=status;renderPile()}
 function startMatch(playerId){
@@ -88,11 +104,14 @@ function flashSuccess(){setPileStatus('success');setTimeout(()=>{if(!state?.ende
 function matchingReversalIndex(defender,attackKey){return defender.hand.findIndex(k=>beginsWithCounter(k,attackKey)&&basicPlayability(k,defender).ok)}
 function playerAttack(index){
   if(state.ended||state.possession!=='player')return;sortHand(state.player);const p=playability(state.player.hand[index],state.player);if(!p.ok){say(p.why);return}
-  const key=useCard(state.player,index),c=C[key];pushPile(key,'player','pending');sortHand(state.player);renderHand();
-  if(isAction(key)){const text=resolveCard(state.player,state.cpu,key);flashSuccess();say(text);renderMatch();return}
-  const ri=matchingReversalIndex(state.cpu,key);
-  if(ri>=0){const rkey=useCard(state.cpu,ri);setTimeout(()=>{pushPile(rkey,'cpu','reversal');const text=resolveCard(state.cpu,state.player,rkey,{reversal:true});transferPossession('cpu',text)},350);return}
-  state.player.chain++;const text=resolveCard(state.player,state.cpu,key);flashSuccess();say(text);afterSuccessfulMove(state.player,state.cpu);renderMatch();
+  const key=useCard(state.player,index);sortHand(state.player);renderHand();
+  animatePlayedCard(key,'player',()=>{
+    if(state.ended)return;const c=C[key];pushPile(key,'player','pending');
+    if(isAction(key)){const text=resolveCard(state.player,state.cpu,key);flashSuccess();say(text);renderMatch();return}
+    const ri=matchingReversalIndex(state.cpu,key);
+    if(ri>=0){const rkey=useCard(state.cpu,ri);animatePlayedCard(rkey,'cpu',()=>{pushPile(rkey,'cpu','reversal');const text=resolveCard(state.cpu,state.player,rkey,{reversal:true});transferPossession('cpu',text)});return}
+    state.player.chain++;const text=resolveCard(state.player,state.cpu,key);flashSuccess();say(text);afterSuccessfulMove(state.player,state.cpu);renderMatch();
+  });
 }
 function afterSuccessfulMove(actor,opp){
   if(state.ended)return;
@@ -106,16 +125,19 @@ function cpuSequence(){
   if(!options.length){drawCard(state.cpu,k=>(C[k].cost||0)===0&&!isReversal(k));sortHand(state.cpu);options=state.cpu.hand.map((k,i)=>({k,i,p:playability(k,state.cpu)})).filter(x=>x.p.ok)}
   if(!options.length){transferPossession('player',`${W[state.cpu.id].shortName} cannot continue the sequence.`);return}
   options.forEach(o=>{const c=C[o.k];o.score=(c.damage||0)*1.5+(c.momentum||0)+Math.random()*10+(c.finisher&&state.player.health<45?70:0)-(isAction(o.k)&&state.cpu.actionUsed?100:0)});options.sort((a,b)=>b.score-a.score);
-  const pick=options[0],key=useCard(state.cpu,pick.i);pushPile(key,'cpu','pending');sortHand(state.cpu);
-  if(isAction(key)){const text=resolveCard(state.cpu,state.player,key);flashSuccess();say(text);renderMatch();cpuTimer=setTimeout(cpuSequence,600);return}
-  state.pendingAttack={key};const has=matchingReversalIndex(state.player,key)>=0;say(`${W[state.cpu.id].shortName} plays ${C[key].name}.${has?' Play a matching reversal.':''}`);renderMatch();if(!has)cpuTimer=setTimeout(resolveCpuAttack,700);
+  const pick=options[0],key=useCard(state.cpu,pick.i);sortHand(state.cpu);
+  animatePlayedCard(key,'cpu',()=>{
+    if(state.ended)return;pushPile(key,'cpu','pending');
+    if(isAction(key)){const text=resolveCard(state.cpu,state.player,key);flashSuccess();say(text);renderMatch();cpuTimer=setTimeout(cpuSequence,600);return}
+    state.pendingAttack={key};const has=matchingReversalIndex(state.player,key)>=0;say(`${W[state.cpu.id].shortName} plays ${C[key].name}.${has?' Play a matching reversal.':''}`);renderMatch();if(!has)cpuTimer=setTimeout(resolveCpuAttack,700);
+  });
 }
 function resolveCpuAttack(){
   if(!state.pendingAttack||state.ended)return;const key=state.pendingAttack.key;state.pendingAttack=null;state.cpu.chain++;const text=resolveCard(state.cpu,state.player,key);flashSuccess();say(text);afterSuccessfulMove(state.cpu,state.player);renderMatch();if(!state.ended&&!shouldPin(state.cpu,state.player))cpuTimer=setTimeout(cpuSequence,650)
 }
 function playerReverse(index){
   if(!state.pendingAttack||state.possession!=='cpu')return;sortHand(state.player);const p=playability(state.player.hand[index],state.player);if(!p.ok)return;
-  const key=useCard(state.player,index);pushPile(key,'player','reversal');state.pendingAttack=null;const text=resolveCard(state.player,state.cpu,key,{reversal:true});transferPossession('player',text)
+  const key=useCard(state.player,index);state.pendingAttack=null;animatePlayedCard(key,'player',()=>{pushPile(key,'player','reversal');const text=resolveCard(state.player,state.cpu,key,{reversal:true});transferPossession('player',text)})
 }
 function transferPossession(to,reason){
   clearTimeout(cpuTimer);state.possession=to;state.pendingAttack=null;state.player.chain=0;state.cpu.chain=0;state.player.actionUsed=false;state.cpu.actionUsed=false;if(reason)say(reason);
@@ -134,7 +156,7 @@ function endMatch(winner){clearTimeout(cpuTimer);state.ended=true;const loser=op
 function say(t){state.log.unshift(t);state.log=state.log.slice(0,14);$('#message').textContent=t;renderLog()}
 function renderLog(){$('#log').innerHTML=state.log.map(t=>`<div>${t}</div>`).join('')}
 function cardMarkup(k,i){
-  const c=C[k],p=playability(k,state.player),cls=`gameCard type-${String(c.type||'other').toLowerCase()} ${p.ok?'':'unplayable'} ${c.image?'hasArt':''}`;
+  const c=C[k],p=playability(k,state.player),cls=`gameCard type-${String(c.type||'other').toLowerCase()} ${p.ok?'':'unplayable'} ${c.image?'hasArt':''} ${c.finisher?'is-finisher':c.tags?.includes('signature')?'is-signature':''}`;
   const stat=(label,val)=>`<div class="cardStat"><span>${label}</span><b>${val}</b></div>`;
   return `<button class="${cls}" data-card="${i}" ${p.ok?'':'disabled'}>${c.image?`<div class="cardArt" style="background-image:url('${c.image}')"></div>`:''}<h4>${c.name}</h4>${!p.ok?`<div class="requirement">${p.why}</div>`:''}<div class="cardStats">${stat('DMG',c.damage||0)}${stat('MOM',(c.momentum||0)>=0?`+${c.momentum||0}`:c.momentum)}${stat('COST',c.cost||0)}</div></button>`;
 }
