@@ -1,5 +1,5 @@
 window.LWC_DATA = {
-  version: '0.4.6',
+  version: '0.5.0',
   wrestlers: {
     cody: {
       id: 'cody', name: 'Cody Rhodes', shortName: 'Cody', era: '2026',
@@ -8,7 +8,7 @@ window.LWC_DATA = {
       traits: { crowdGain: 1.22, comboMomentum: 1.18, reversalBonus: 0.07, comeback: 'Finish the Story' },
       library: [
         'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','chop','headbutt','shoulderTackle','dropkick','shotgunDropkick','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','wheelbarrowBulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','germanSuplex','piledriver','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','highCrossBody','mountedPunches','elbowBackHead'
+        'forearm','chop','headbutt','shoulderTackle','dropkick','shotgunDropkick','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','wheelbarrowBulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','germanSuplex','piledriver','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','highCrossBody','mountedPunches','elbowBackHead','crowdSupport','catchBreath','fireUp','scoutOpponent'
       ]
     },
     roman: {
@@ -18,7 +18,7 @@ window.LWC_DATA = {
       traits: { strikeDamage: 1.12, crowdFromAggression: 1.12, riskPenalty: 0.82, comeback: 'Tribal Chief Comeback' },
       library: [
         'punch','kick','clothesline','flyingClothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','headbutt','shoulderTackle','dropkick','shotgunDropkick','bigBoot','kneeLift','bodySlam','scoopSlam','neckbreaker','backbreaker','ddt','verticalSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','powerbomb','legDrop','kneeDrop','rearChinLock','camelClutch','sleeperHold','bostonCrab','crossbody','highCrossBody'
+        'forearm','headbutt','shoulderTackle','dropkick','shotgunDropkick','bigBoot','kneeLift','bodySlam','scoopSlam','neckbreaker','backbreaker','ddt','verticalSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','powerbomb','legDrop','kneeDrop','rearChinLock','camelClutch','sleeperHold','bostonCrab','crossbody','highCrossBody','crowdSupport','catchBreath','fireUp','scoutOpponent'
       ]
     }
   },
@@ -93,6 +93,10 @@ window.LWC_DATA = {
     rockSpinebuster: { name:'Spinebuster', type:'Signature', damage:18, momentum:18, cost:18, accuracy:86, req:['any'], result:'grounded', tags:['signature','grapple'], combo:'peoplesElbow' },
     peoplesElbow: { name:"People's Elbow", type:'Finisher', damage:24, momentum:0, crowd:25, cost:40, accuracy:82, req:['any'], result:'grounded', finisher:true, pinBonus:28, riskMomentum:14, tags:['finisher','crowd'] },
     rockBottom: { name:'Rock Bottom', type:'Finisher', damage:27, momentum:0, crowd:18, cost:46, accuracy:78, req:['any'], result:'grounded', finisher:true, pinBonus:34, riskMomentum:18, tags:['finisher','grapple'] },
-    rockComeback: { name:'The People Are Behind Him', type:'Comeback', damage:0, momentum:20, heal:10, crowd:24, cost:0, accuracy:100, req:['any'], result:'same', once:true, onlyBehind:true, tags:['comeback'] }
+    rockComeback: { name:'The People Are Behind Him', type:'Comeback', damage:0, momentum:20, heal:10, crowd:24, cost:0, accuracy:100, req:['any'], result:'same', once:true, onlyBehind:true, tags:['comeback'] },
+    crowdSupport: { name:'Crowd Support', type:'Action', damage:0, momentum:2, cost:0, result:'same', tags:['action','crowd'] },
+    catchBreath: { name:'Catch Your Breath', type:'Action', damage:0, momentum:4, heal:3, cost:0, result:'same', tags:['action','recovery'] },
+    fireUp: { name:'Fire Up', type:'Action', damage:0, momentum:6, crowd:4, cost:0, result:'same', tags:['action','crowd'] },
+    scoutOpponent: { name:'Scout the Opponent', type:'Action', damage:0, momentum:3, guard:0.2, cost:0, result:'same', tags:['action','defence'] }
   }
 };

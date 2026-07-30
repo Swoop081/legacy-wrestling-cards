@@ -325,3 +325,30 @@
   #match .gameCard.hasArt .cardStat span{font-size:.39rem}
   #match .gameCard.hasArt .cardStat b{font-size:.6rem}
 }
+
+
+/* v0.5.0 played-pile card-chain system */
+.pileZone{max-width:1280px;margin:6px auto 8px;display:flex;justify-content:center;min-height:118px;position:relative}
+.playedPile{width:96px;height:112px;position:relative;display:flex;align-items:center;justify-content:center}
+.pileEmpty{width:82px;height:105px;border:1px dashed #566071;border-radius:10px;display:grid;place-items:center;color:#768093;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em}
+.pileCard{position:absolute;width:82px;height:115px;border:3px solid #f28c28;border-radius:10px;background:linear-gradient(150deg,#252c38,#0d1016);overflow:hidden;box-shadow:0 6px 15px #000b;transform:translate(calc((var(--stack) - 2)*5px),calc((var(--stack) - 2)*-3px)) rotate(calc((var(--stack) - 2)*2deg));display:flex;flex-direction:column;justify-content:flex-start;padding:5px;isolation:isolate}
+.pileCard .pileArt{position:absolute;inset:0;background-size:cover;background-position:center;z-index:-2}.pileCard .pileArt::after{content:'';position:absolute;inset:0;background:linear-gradient(#000c 0 20%,transparent 45%,#000d 100%)}
+.pileCard strong{font-size:.56rem;line-height:1.05;background:#050608cc;border-radius:4px;padding:3px;text-align:center}
+.pileCard.type-strike{border-color:#ef3d45}.pileCard.type-submission{border-color:#34b66a}.pileCard.type-aerial{border-color:#3d8df5}.pileCard.type-grapple{border-color:#f28c28}.pileCard.type-action{border-color:#f0cf3f}.pileCard.type-reversal{border-color:#a86cff}
+.successFlash,.reversalFlash{position:absolute;inset:36% -10px auto;background:#20c968;color:#fff;text-align:center;font-size:.72rem;font-weight:1000;letter-spacing:.12em;padding:5px 2px;box-shadow:0 0 18px #20c968;animation:pileFlash .65s ease both;z-index:4}.reversalFlash{background:#a86cff;box-shadow:0 0 18px #a86cff}
+@keyframes pileFlash{0%{opacity:0;transform:scale(.65)}35%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+.gameCard.type-action{border-color:#f0cf3f}.gameCard.type-reversal{border-color:#a86cff}
+.gameCard>.requirement{margin:8px 0 0;color:#efb2b5}
+.gameCard .cardStats{grid-template-columns:repeat(3,1fr);margin-top:auto}
+.gameCard.hasArt .cardStats{grid-template-columns:repeat(3,1fr);margin-top:auto}
+.gameCard.hasArt>.requirement{margin-top:5px;margin-bottom:auto}
+#match .handHeader{margin-top:0}
+@media(max-width:850px){
+  #match .pileZone{min-height:106px;margin:2px auto 4px}
+  #match .playedPile{height:104px}
+  #match .pileCard{width:73px;height:102px}
+  #match .pileEmpty{width:73px;height:100px}
+  #match .gameCard{flex-basis:43vw;max-width:205px;min-height:287px;aspect-ratio:5/7}
+  #match .gameCard h4{font-size:.86rem}
+  #match .gameCard .cardStats{grid-template-columns:repeat(3,1fr)}
+}

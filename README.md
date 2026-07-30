@@ -1,12 +1,15 @@
-# LEGACY Wrestling Cards v0.4.6
+# LEGACY Wrestling Cards v0.5.0
 
-Adds three new optimised 5:7 move-photo trading cards:
+Mobile card-chain prototype featuring Cody Rhodes and Roman Reigns.
 
-- Shotgun Dropkick
-- High Cross Body
-- Mounted Punches
-
-Shotgun Dropkick and High Cross Body are available in both current wrestler pools. Mounted Punches is assigned to Cody Rhodes. This build retains the v0.4.2 CPU and match-finishing hotfixes, the turn-start discard phase, unique-hand rules, portrait-only artwork system, mobile single-screen interface, and forced update checking.
-
-## v0.4.6
-Photographed move cards now display the complete 5:7 WebP artwork across the full card. The old shallow 58% banner crop has been removed. Move and gameplay details are overlaid in compact translucent panels so the full action image remains visible.
+## v0.5.0
+- Central played-card pile above the hand.
+- Played attacks move to the pile and replacement cards append to the right of the hand.
+- Matching reversals stack over the attack and transfer possession.
+- Unreversed cards display SUCCESS and allow the attacking sequence to continue.
+- Accuracy removed; an attack succeeds unless reversed.
+- Action cards use yellow borders.
+- Opening hand always contains two zero-cost cards, one grapple, one reversal and one random card.
+- The opening player does not receive a discard phase on turn one.
+- Later possessions retain the choose-any-number discard and redraw phase.
+- Card stats reduced to Damage, Momentum and Cost at the bottom.
