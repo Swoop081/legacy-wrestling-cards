@@ -1,5 +1,5 @@
 (function(){
- const VERSION='0.2.3';
+ const VERSION='0.2.4';
  function portrait(w){return `<img src="${w.image}" alt="${w.name}">`}
  window.home=function(){
   clearStoryTimer(); M=null; setActiveGameMode('exhibition');
