@@ -32,13 +32,26 @@ function drawCard(f,excluded=new Set()){
 }
 function drawToFive(f){f.hand=[...new Set(f.hand)].filter(k=>C[k]);let safety=0;while(f.hand.length<5&&safety++<100){const k=drawCard(f);if(!k)break;if(!f.hand.includes(k))f.hand.push(k)}}
 function ensurePlayableOffence(f){
-  if(f!==state.player||state.possession!=='player')return;
+  const ownsPossession=(f===state.player&&state.possession==='player')||(f===state.cpu&&state.possession==='cpu');
+  if(!ownsPossession)return;
   if(f.hand.some(k=>!isReversal(k)&&basicPlayability(k,f).ok))return;
   const basics=['punch','kick'].filter(k=>W[f.id].library.includes(k)&&!f.hand.includes(k));
   if(!basics.length)return;
-  let replace=f.hand.findIndex(k=>isReversal(k)||C[k].cost>0);if(replace<0)replace=f.hand.length-1;
+  let replace=f.hand.findIndex(k=>isReversal(k)||!basicPlayability(k,f).ok);
+  if(replace<0)replace=f.hand.length-1;
   if(replace>=0)f.hand[replace]=basics[Math.floor(Math.random()*basics.length)];
 }
+function refreshCpuHand(){
+  const f=state.cpu;
+  ensurePlayableOffence(f);
+  if(f.hand.some(k=>!isReversal(k)&&basicPlayability(k,f).ok))return;
+  const kept=f.hand.filter(k=>!isReversal(k)&&basicPlayability(k,f).ok);
+  f.discard.push(...f.hand.filter(k=>!kept.includes(k)));
+  f.hand=[...new Set(kept)];
+  drawToFive(f);
+  ensurePlayableOffence(f);
+}
+
 function beginsWithCounter(k,attackKey){const card=C[k];return !!card&&(card.counter===attackKey||(isReversal(k)&&card.reverse===attackCategory(C[attackKey])))}
 function counterAccuracy(card){return card.counterAccuracy||card.accuracy}
 function beginDiscardPhase(){
@@ -88,12 +101,18 @@ function playerAttack(index){
   if(state.ended||state.possession!=='player'||state.discardPhase)return;const p=playability(state.player.hand[index],state.player);if(!p.ok){say(p.why);return}
   const key=consumeCard(state.player,index),card=C[key],ri=matchingReversalIndex(state.cpu,key);
   if(ri>=0){const rkey=consumeCard(state.cpu,ri),rev=C[rkey],chance=clamp(counterAccuracy(rev)+(W[state.cpu.id].stats.ringIQ-W[state.player.id].stats.ringIQ)*.15,45,92);if(Math.random()*100<=chance){state.cpu.momentum=clamp(state.cpu.momentum+rev.momentum,0,100);state.player.health=clamp(state.player.health-(rev.damage||0),0,100);state.turn++;updatePhase();transferPossession('cpu',`${W[state.cpu.id].shortName} plays ${rev.name}, reverses ${card.name}, and takes possession.`);return}}
-  const result=applyMove(state.player,state.cpu,key);say(result.text);renderMatch();if(!result.landed)transferPossession('cpu');
+  const result=applyMove(state.player,state.cpu,key);say(result.text);renderMatch();
+  if(result.landed){if(checkForcedFinish(state.player,state.cpu))return;renderMatch()}else transferPossession('cpu');
 }
 function cpuSequence(){
   if(state.ended||state.possession!=='cpu'||state.pendingAttack)return;
-  const f=state.cpu;let options=f.hand.map((k,i)=>({k,i,p:playability(k,f)})).filter(x=>x.p.ok);
-  if(!options.length){pinOrPass(true);return}
+  const f=state.cpu;refreshCpuHand();
+  let options=f.hand.map((k,i)=>({k,i,p:playability(k,f)})).filter(x=>x.p.ok);
+  if(!options.length){
+    f.hand=[];drawToFive(f);ensurePlayableOffence(f);
+    options=f.hand.map((k,i)=>({k,i,p:playability(k,f)})).filter(x=>x.p.ok);
+  }
+  if(!options.length){transferPossession('player',`${W[f.id].shortName} cannot find an opening and gives up possession.`);return}
   options.forEach(o=>{const c=C[o.k];o.score=(c.damage||0)*1.4+(c.momentum||0)+Math.random()*18+(c.finisher&&state.player.health<50?70:0)});options.sort((a,b)=>b.score-a.score);
   const pick=options[0],key=consumeCard(f,pick.i),category=attackCategory(C[key]);state.pendingAttack={key,category};
   const hasReverse=matchingReversalIndex(state.player,key)>=0;say(`${W[f.id].shortName} attempts ${C[key].name}. ${hasReverse?`Play a matching counter now.`:'You have no matching counter.'}`);renderMatch();
@@ -103,14 +122,25 @@ function resolvePendingCpuAttack(reversed){
   if(!state.pendingAttack||state.ended)return;const key=state.pendingAttack.key;state.pendingAttack=null;
   if(reversed){transferPossession('player');return}
   const result=applyMove(state.cpu,state.player,key);say(result.text);renderMatch();
-  if(result.landed)cpuTimer=setTimeout(cpuSequence,700);else transferPossession('player');
+  if(result.landed){
+    if(checkForcedFinish(state.cpu,state.player))return;
+    const vulnerable=state.player.health<=35||C[state.cpu.lastCard]?.finisher;
+    if(vulnerable&&Math.random()<0.62){cpuTimer=setTimeout(()=>pinOrPass(true),650);return}
+    cpuTimer=setTimeout(cpuSequence,700);
+  }else transferPossession('player');
 }
 function playerReverse(index){
   if(!state.pendingAttack||state.possession!=='cpu')return;const p=playability(state.player.hand[index],state.player);if(!p.ok){say(p.why);return}
   const key=consumeCard(state.player,index),rev=C[key],attack=C[state.pendingAttack.key],chance=clamp(counterAccuracy(rev)+(W[state.player.id].stats.ringIQ-W[state.cpu.id].stats.ringIQ)*.15,45,94);
   state.turn++;if(Math.random()*100<=chance){state.player.momentum=clamp(state.player.momentum+rev.momentum,0,100);state.cpu.health=clamp(state.cpu.health-(rev.damage||0),0,100);state.control=clamp(state.control+8,5,95);state.pendingAttack=null;updatePhase();transferPossession('player',`${W[state.player.id].shortName} uses ${rev.name} to counter ${attack.name} and takes possession.`)}else{say(`${rev.name} fails. ${W[state.cpu.id].shortName}'s ${attack.name} continues.`);renderMatch();cpuTimer=setTimeout(()=>resolvePendingCpuAttack(false),450)}
 }
-function pinChance(f,opp,bonus=0){let chance=(100-opp.health)*.72+bonus+(f.momentum*.08)-(opp.momentum*.05)+(W[f.id].stats.power-W[opp.id].stats.resilience)*.15;if(f.lastCard&&C[f.lastCard]?.finisher)chance+=C[f.lastCard].pinBonus||25;return clamp(Math.round(chance),3,94)}
+function pinChance(f,opp,bonus=0){if(opp.health<=0)return 100;let chance=(100-opp.health)*.72+bonus+(f.momentum*.08)-(opp.momentum*.05)+(W[f.id].stats.power-W[opp.id].stats.resilience)*.15;if(f.lastCard&&C[f.lastCard]?.finisher)chance+=C[f.lastCard].pinBonus||25;return clamp(Math.round(chance),3,94)}
+function checkForcedFinish(actor,opp){
+  if(opp.health>0)return false;
+  state.nearFalls++;state.turn++;
+  say(`${W[actor.id].shortName} makes the immediate cover — one, two, three!`);
+  endMatch(actor);return true;
+}
 function pinOrPass(isCpu=false){
   const actor=isCpu?state.cpu:state.player,opp=stateOpponent(actor);if(state.ended)return;
   const vulnerable=opp.health<=35||C[actor.lastCard]?.finisher;
@@ -128,7 +158,10 @@ function renderMatch(){
   [['player',p],['cpu',c]].forEach(([pre,f])=>{$(`#${pre}HealthText`).textContent=f.health;$(`#${pre}HealthBar`).style.width=f.health+'%';$(`#${pre}MomentumText`).textContent=f.momentum;$(`#${pre}MomentumBar`).style.width=f.momentum+'%'});
   $('#playerControl').textContent=state.control;$('#cpuControl').textContent=100-state.control;$('#controlBar').style.width=state.control+'%';$('#position').textContent=`Position: ${state.position}`;$('#crowd').textContent=`Crowd ${state.crowd}`;$('#phaseBadge').textContent=state.phase;
   $('#turnLabel').textContent=state.discardPhase?'Refresh your hand':state.possession==='player'?'Your possession':state.pendingAttack?'Counter now':'CPU possession';$('#redrawBtn').disabled=state.possession!=='player'||!state.discardPhase;$('#redrawBtn').textContent=state.discardPhase?(state.discardSelected.size?`Draw ${state.discardSelected.size}`:'Keep Hand'):'Hand Set';
-  const noOffence=state.possession==='player'&&!playableOffence(p);$('#pinBtn').hidden=state.possession==='player'?!noOffence:false;$('#pinBtn').textContent='Pin / Pass';
+  const vulnerable=state.cpu.health<=35||C[state.player.lastCard]?.finisher;
+  const noOffence=state.possession==='player'&&!playableOffence(p);
+  $('#pinBtn').hidden=state.possession==='player'?!(vulnerable||noOffence):false;
+  $('#pinBtn').textContent=vulnerable?'Attempt Pin':'Pass Possession';
   if(state.possession==='cpu'&&state.pendingAttack){$('#pinBtn').hidden=false;$('#pinBtn').textContent='Take the Hit'}
   $('#handTitle').textContent=state.discardPhase?'Choose Discards':state.possession==='player'?'Your Attack':'Your Counters';$('#handHelp').textContent=state.discardPhase?'Tap any cards to replace, then confirm.':state.possession==='player'?'Keep playing until countered.':'Punch counters Punch, Kick counters Kick, and reversal cards counter their move type.';
   renderHand();renderLog();

@@ -1,4 +1,4 @@
-# LEGACY Wrestling Cards v0.4.1
+# LEGACY Wrestling Cards v0.4.2
 
 Possession and typed-reversal match engine prototype.
 
@@ -10,7 +10,7 @@ Possession and typed-reversal match engine prototype.
 - When no offensive card is playable, Pin / Pass ends the sequence; against a vulnerable opponent it becomes a real pin attempt.
 - Unique-card hand rules and mobile single-screen layout are retained.
 
-## v0.4.1
+## v0.4.2
 - Punch and Kick cost zero momentum and counter the same move respectively.
 - Every player possession begins with a selectable discard phase.
 - Tap any number of cards, then draw the same number of unique random replacements.
