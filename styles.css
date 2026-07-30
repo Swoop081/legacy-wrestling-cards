@@ -161,3 +161,83 @@
 
 /* v0.4.3 move photography */
 .gameCard.hasArt{padding:0;overflow:hidden;background:#0b0d11}.gameCard.hasArt .cardArt{height:58%;min-height:0;background-size:cover;background-position:center;position:relative}.gameCard.hasArt .cardArt::after{content:'';position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#050608e8)}.gameCard.hasArt .cardArt strong{position:absolute;z-index:1;left:8px;right:8px;bottom:8px;font-size:.78rem;line-height:1;text-transform:uppercase;text-shadow:0 2px 5px #000}.gameCard.hasArt>.type,.gameCard.hasArt>h4,.gameCard.hasArt>.requirement,.gameCard.hasArt>.combo{margin-left:9px;margin-right:9px}.gameCard.hasArt .cardStats{margin:4px 9px 9px}
+
+/* v0.4.5 full-art trading cards
+   The prepared asset is already a 5:7 card image, so show the complete image
+   rather than cropping it into a shallow banner. Gameplay information is
+   layered over the artwork in compact translucent panels. */
+.gameCard.hasArt{
+  isolation:isolate;
+  padding:10px;
+  background:#050608;
+  overflow:hidden;
+}
+.gameCard.hasArt .cardArt{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  width:100%;
+  height:100%;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center center;
+}
+.gameCard.hasArt .cardArt::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.08) 0%,rgba(0,0,0,.02) 42%,rgba(0,0,0,.5) 65%,rgba(0,0,0,.94) 100%);
+}
+.gameCard.hasArt .cardArt strong{
+  position:absolute;
+  z-index:2;
+  left:8px;
+  right:8px;
+  bottom:46%;
+  padding:5px 7px;
+  border-radius:7px;
+  background:rgba(5,6,8,.72);
+  backdrop-filter:blur(2px);
+  font-size:.72rem;
+  line-height:1.05;
+  text-transform:uppercase;
+  text-shadow:0 2px 5px #000;
+}
+.gameCard.hasArt>.type{
+  align-self:flex-start;
+  margin:0;
+  padding:4px 6px;
+  border-radius:6px;
+  background:rgba(5,6,8,.76);
+  backdrop-filter:blur(2px);
+}
+.gameCard.hasArt>h4{
+  display:none;
+}
+.gameCard.hasArt>.requirement,
+.gameCard.hasArt>.combo,
+.gameCard.hasArt>.risk{
+  position:relative;
+  margin-left:0;
+  margin-right:0;
+  padding:4px 6px;
+  border-radius:6px;
+  background:rgba(5,6,8,.76);
+  backdrop-filter:blur(2px);
+}
+.gameCard.hasArt>.requirement{margin-top:auto;margin-bottom:5px}
+.gameCard.hasArt .cardStats{
+  position:relative;
+  margin:0;
+  gap:4px;
+}
+.gameCard.hasArt .cardStat{
+  background:rgba(5,6,8,.84);
+  backdrop-filter:blur(2px);
+}
+
+@media(max-width:850px){
+  #match .gameCard.hasArt{padding:8px}
+  #match .gameCard.hasArt .cardArt strong{bottom:43%;font-size:.64rem}
+  #match .gameCard.hasArt>.requirement{font-size:.54rem}
+}

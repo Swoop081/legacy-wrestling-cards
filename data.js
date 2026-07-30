@@ -1,5 +1,5 @@
 window.LWC_DATA = {
-  version: '0.4.3',
+  version: '0.4.5',
   wrestlers: {
     cody: {
       id: 'cody', name: 'Cody Rhodes', shortName: 'Cody', era: '2026',
@@ -8,7 +8,7 @@ window.LWC_DATA = {
       traits: { crowdGain: 1.22, comboMomentum: 1.18, reversalBonus: 0.07, comeback: 'Finish the Story' },
       library: [
         'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','chop','headbutt','shoulderTackle','dropkick','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','wheelbarrowBulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','germanSuplex','piledriver','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','elbowBackHead'
+        'forearm','chop','headbutt','shoulderTackle','dropkick','shotgunDropkick','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','wheelbarrowBulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','germanSuplex','piledriver','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','highCrossBody','mountedPunches','elbowBackHead'
       ]
     },
     roman: {
@@ -18,7 +18,7 @@ window.LWC_DATA = {
       traits: { strikeDamage: 1.12, crowdFromAggression: 1.12, riskPenalty: 0.82, comeback: 'Tribal Chief Comeback' },
       library: [
         'punch','kick','clothesline','flyingClothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
-        'forearm','headbutt','shoulderTackle','bigBoot','kneeLift','bodySlam','scoopSlam','neckbreaker','backbreaker','ddt','verticalSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','powerbomb','legDrop','kneeDrop','rearChinLock','camelClutch','sleeperHold','bostonCrab','crossbody'
+        'forearm','headbutt','shoulderTackle','dropkick','shotgunDropkick','bigBoot','kneeLift','bodySlam','scoopSlam','neckbreaker','backbreaker','ddt','verticalSuplex','backSuplex','bellyToBackSuplex','bellyToBelly','powerbomb','legDrop','kneeDrop','rearChinLock','camelClutch','sleeperHold','bostonCrab','crossbody','highCrossBody'
       ]
     }
   },
@@ -46,6 +46,7 @@ window.LWC_DATA = {
     headbutt: { name:'Headbutt', type:'Strike', damage:10, momentum:8, cost:1, accuracy:86, req:['any'], result:'standing', tags:['strike','aggressive'] },
     shoulderTackle: { name:'Shoulder Tackle', type:'Strike', damage:11, momentum:10, cost:2, accuracy:86, req:['any'], result:'grounded', tags:['strike','power'] },
     dropkick: { name:'Dropkick', type:'Strike', damage:12, momentum:11, cost:3, accuracy:82, req:['any'], result:'grounded', tags:['strike','athletic'] },
+    shotgunDropkick: { image:'assets/cards/common/shotgunDropkick.webp', name:'Shotgun Dropkick', type:'Strike', damage:15, momentum:14, cost:7, accuracy:81, req:['any'], result:'grounded', tags:['strike','athletic','impact'] },
     bigBoot: { name:'Big Boot', type:'Strike', damage:13, momentum:10, cost:4, accuracy:80, req:['any'], result:'grounded', tags:['strike','power'] },
     kneeLift: { name:'Running Knee Lift', type:'Strike', damage:12, momentum:12, cost:4, accuracy:81, req:['any'], result:'grounded', tags:['strike','aggressive'] },
     bodySlam: { name:'Body Slam', type:'Grapple', damage:11, momentum:10, cost:2, accuracy:88, req:['any'], result:'grounded', tags:['basic','grapple'] },
@@ -76,10 +77,11 @@ window.LWC_DATA = {
 
     divingElbow: { name:'Diving Elbow Drop', type:'Aerial', damage:17, momentum:14, cost:9, accuracy:76, req:['any'], result:'grounded', tags:['aerial','high-risk'] },
     crossbody: { name:'Flying Crossbody', type:'Aerial', damage:14, momentum:15, cost:7, accuracy:80, req:['any'], result:'grounded', tags:['aerial','athletic'] },
+    highCrossBody: { image:'assets/cards/common/highCrossBody.webp', name:'High Cross Body', type:'Aerial', damage:16, momentum:16, cost:9, accuracy:78, req:['any'], result:'grounded', tags:['aerial','athletic','high-risk'] },
     topRopeSplash: { name:'Top-Rope Splash', type:'Aerial', damage:20, momentum:16, cost:14, accuracy:72, req:['any'], result:'grounded', riskMomentum:8, tags:['aerial','high-risk'] },
 
     louThesz: { name:'Lou Thesz Press', type:'Signature', damage:15, momentum:14, cost:12, accuracy:86, req:['any'], result:'grounded', tags:['signature','aggressive'], combo:'mountedPunches' },
-    mountedPunches: { name:'Mounted Punches', type:'Signature', damage:13, momentum:12, cost:9, accuracy:90, req:['any'], result:'grounded', tags:['signature','aggressive'], combo:'mudHole' },
+    mountedPunches: { image:'assets/wrestlers/cody-rhodes/cards/mountedPunches.webp', name:'Mounted Punches', type:'Signature', damage:13, momentum:13, cost:7, accuracy:89, req:['any'], result:'grounded', tags:['signature','aggressive'] },
     mudHole: { name:'Stomp a Mud Hole', type:'Signature', damage:18, momentum:17, cost:18, accuracy:84, req:['any'], result:'grounded', tags:['signature','aggressive'], combo:'stunner' },
     whoopAss: { name:'Open a Can of Whoop-Ass', type:'Signature', damage:16, momentum:20, cost:16, accuracy:82, req:['any'], result:'grounded', tags:['signature','aggressive'] },
     raiseHell: { name:'Raise Hell', type:'Taunt', damage:0, momentum:24, crowd:18, cost:0, accuracy:100, req:['any'], result:'same', tags:['taunt','aggressive'] },
