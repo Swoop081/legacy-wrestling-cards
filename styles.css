@@ -152,3 +152,5 @@
     width:41vw;
   }
 }
+.handActions{display:flex;gap:8px;align-items:center}.primary.compact{padding:10px 14px;font-size:.82rem;background:var(--gold);color:#111}.gameCard .type{white-space:nowrap}.gameCard[data-reversal]{border-color:#4fa6ff}
+@media(max-width:850px){#match .handActions{gap:6px}#match .handActions button{padding:8px 10px;font-size:.72rem}}

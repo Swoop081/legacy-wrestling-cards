@@ -1,5 +1,5 @@
 window.LWC_DATA = {
-  version: '0.3.4',
+  version: '0.4.0',
   wrestlers: {
     austin: {
       id: 'austin', name: '"Stone Cold" Steve Austin', shortName: 'Stone Cold', era: '1999',
@@ -7,8 +7,8 @@ window.LWC_DATA = {
       stats: { power: 92, speed: 83, technique: 89, brawling: 100, charisma: 100, ringIQ: 94, resilience: 100 },
       traits: { strikeDamage: 1.10, crowdFromAggression: 1.20, riskPenalty: 0.75, comeback: 'Austin Refuses to Stay Down' },
       library: [
-        'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseGrapple','cover','hookLeg','rollUp',
-        'forearm','chop','headbutt','shoulderTackle','dropkick','bigBoot','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBelly','germanSuplex','piledriver','powerbomb','legDrop','kneeDrop','sleeperHold','bostonCrab',
+        'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
+        'forearm','chop','headbutt','shoulderTackle','dropkick','bigBoot','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBelly','germanSuplex','piledriver','powerbomb','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','topRopeSplash',
         'louThesz','mountedPunches','mudHole','whoopAss','raiseHell','stunner','austinComeback'
       ]
     },
@@ -18,8 +18,8 @@ window.LWC_DATA = {
       stats: { power: 94, speed: 90, technique: 88, brawling: 95, charisma: 100, ringIQ: 93, resilience: 97 },
       traits: { crowdGain: 1.25, signatureAccuracy: 1.08, comboMomentum: 1.20, reversalBonus: 0.08, comeback: 'The People Are Behind Him' },
       library: [
-        'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseGrapple','cover','hookLeg','rollUp',
-        'forearm','chop','headbutt','shoulderTackle','dropkick','bigBoot','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBelly','germanSuplex','piledriver','powerbomb','legDrop','kneeDrop','sleeperHold','bostonCrab',
+        'punch','kick','clothesline','elbow','grapple','irishWhip','dragCorner','groundOpponent','block','reverseStrike','reverseGrapple','reverseAerial','reverseSubmission','reverseControl','cover','hookLeg','rollUp',
+        'forearm','chop','headbutt','shoulderTackle','dropkick','bigBoot','kneeLift','bodySlam','scoopSlam','hipToss','armDrag','neckbreaker','backbreaker','bulldog','ddt','verticalSuplex','snapSuplex','backSuplex','bellyToBelly','germanSuplex','piledriver','powerbomb','legDrop','kneeDrop','sleeperHold','bostonCrab','divingElbow','crossbody','topRopeSplash',
         'samoanDrop','floatDDT','rockSpinebuster','peoplesElbow','rockBottom','rockComeback'
       ]
     }
@@ -33,8 +33,12 @@ window.LWC_DATA = {
     irishWhip: { name:'Irish Whip', type:'Control', damage:3, momentum:10, cost:0, accuracy:90, req:['any'], result:'standing', setup:'running', tags:['control'] },
     dragCorner: { name:'Drive Into the Corner', type:'Control', damage:4, momentum:9, cost:1, accuracy:88, req:['any'], result:'corner', tags:['control'] },
     groundOpponent: { name:'Ground the Opponent', type:'Control', damage:5, momentum:8, cost:0, accuracy:90, req:['any'], result:'grounded', tags:['control'] },
-    block: { name:'Brace and Block', type:'Defence', damage:0, momentum:12, cost:0, accuracy:100, req:['any'], result:'same', guard:0.45, tags:['defence'] },
-    reverseGrapple: { name:'Reverse Grapple', type:'Defence', damage:6, momentum:10, cost:4, accuracy:76, req:['any'], result:'standing', guard:0.25, tags:['defence','grapple'] },
+    block: { name:'Brace and Block', type:'Defence', damage:0, momentum:8, cost:0, accuracy:100, req:['any'], result:'same', guard:0.35, tags:['defence'] },
+    reverseStrike: { name:'Reverse Strike', type:'Reversal', reverse:'Strike', damage:4, momentum:10, cost:0, accuracy:78, req:['any'], result:'standing', tags:['reversal','strike'] },
+    reverseGrapple: { name:'Reverse Grapple', type:'Reversal', reverse:'Grapple', damage:5, momentum:10, cost:0, accuracy:76, req:['any'], result:'standing', tags:['reversal','grapple'] },
+    reverseAerial: { name:'Reverse Aerial Attack', type:'Reversal', reverse:'Aerial', damage:6, momentum:12, cost:0, accuracy:74, req:['any'], result:'grounded', tags:['reversal','aerial'] },
+    reverseSubmission: { name:'Escape Submission', type:'Reversal', reverse:'Submission', damage:2, momentum:9, cost:0, accuracy:80, req:['any'], result:'standing', tags:['reversal','submission'] },
+    reverseControl: { name:'Reverse Control Move', type:'Reversal', reverse:'Control', damage:3, momentum:9, cost:0, accuracy:79, req:['any'], result:'standing', tags:['reversal','control'] },
     cover: { name:'Cover', type:'Pin', damage:0, momentum:0, cost:0, accuracy:100, req:['any'], result:'grounded', pinBonus:0, tags:['pin'] },
     hookLeg: { name:'Hook the Leg', type:'Pin', damage:0, momentum:0, cost:8, accuracy:100, req:['any'], result:'grounded', pinBonus:12, tags:['pin'] },
     rollUp: { name:'Desperate Roll-Up', type:'Pin', damage:0, momentum:-5, cost:5, accuracy:72, req:['any'], result:'grounded', pinBonus:18, surprise:true, tags:['pin','risk'] },
@@ -65,6 +69,10 @@ window.LWC_DATA = {
     kneeDrop: { name:'Knee Drop', type:'Strike', damage:11, momentum:10, cost:3, accuracy:87, req:['any'], result:'grounded', tags:['strike'] },
     sleeperHold: { name:'Sleeper Hold', type:'Submission', damage:8, momentum:15, cost:6, accuracy:84, req:['any'], result:'grounded', tags:['submission','control'] },
     bostonCrab: { name:'Boston Crab', type:'Submission', damage:12, momentum:16, cost:10, accuracy:78, req:['any'], result:'grounded', tags:['submission','technical'] },
+
+    divingElbow: { name:'Diving Elbow Drop', type:'Aerial', damage:17, momentum:14, cost:9, accuracy:76, req:['any'], result:'grounded', tags:['aerial','high-risk'] },
+    crossbody: { name:'Flying Crossbody', type:'Aerial', damage:14, momentum:15, cost:7, accuracy:80, req:['any'], result:'grounded', tags:['aerial','athletic'] },
+    topRopeSplash: { name:'Top-Rope Splash', type:'Aerial', damage:20, momentum:16, cost:14, accuracy:72, req:['any'], result:'grounded', riskMomentum:8, tags:['aerial','high-risk'] },
 
     louThesz: { name:'Lou Thesz Press', type:'Signature', damage:15, momentum:14, cost:12, accuracy:86, req:['any'], result:'grounded', tags:['signature','aggressive'], combo:'mountedPunches' },
     mountedPunches: { name:'Mounted Punches', type:'Signature', damage:13, momentum:12, cost:9, accuracy:90, req:['any'], result:'grounded', tags:['signature','aggressive'], combo:'mudHole' },
