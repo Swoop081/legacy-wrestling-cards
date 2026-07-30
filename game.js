@@ -10,17 +10,37 @@ function other(id){return id==='austin'?'rock':'austin'}
 function weightedLibrary(id){const base=W[id].library.flatMap(k=>['cover','hookLeg','rollUp','stunner','rockBottom','peoplesElbow','austinComeback','rockComeback'].includes(k)?[k]:[k,k]);return base}
 function makeFighter(id){return {id,health:100,momentum:0,hand:[],discard:[],usedOnce:new Set(),guard:0,redraw:true,combo:null,lastCard:null}}
 function startMatch(playerId){selected=playerId;state={player:makeFighter(playerId),cpu:makeFighter(other(playerId)),position:'standing',setup:null,crowd:0,control:50,turn:0,phase:'Opening',log:[],ended:false,nearFalls:0,variety:new Set(),finishers:0};drawToFive(state.player);drawToFive(state.cpu);renderMatch();show('match');say(`${W[state.player.id].name} faces ${W[state.cpu.id].name}. The bell rings.`)}
-function drawCard(f){let pool=weightedLibrary(f.id).filter(k=>canEverDraw(k,f));if(!pool.length)pool=['punch'];let attempts=0,k;do{k=pool[Math.floor(Math.random()*pool.length)];attempts++}while(attempts<20&&f.hand.filter(x=>x===k).length>=2);return k}
+function drawCard(f){
+  const held=new Set(f.hand);
+  let pool=weightedLibrary(f.id).filter(k=>canEverDraw(k,f)&&!held.has(k));
+  if(!pool.length)pool=W[f.id].library.filter(k=>canEverDraw(k,f)&&!held.has(k));
+  if(!pool.length)pool=Object.keys(C).filter(k=>canEverDraw(k,f)&&!held.has(k));
+  if(!pool.length)return held.has('block')?'punch':'block';
+  return pool[Math.floor(Math.random()*pool.length)];
+}
 function canEverDraw(k,f){const card=C[k];if(card.once&&f.usedOnce.has(k))return false;if(card.finisher&&(state.turn<4||f.momentum<24))return false;if(card.type==='Pin'&&state.turn<2)return false;if(card.onlyBehind&&f.health>=stateOpponent(f).health-12)return false;return true}
 function stateOpponent(f){return f===state.player?state.cpu:state.player}
-function drawToFive(f){while(f.hand.length<5)f.hand.push(drawCard(f));ensurePlayable(f)}
+function drawToFive(f){
+  // A hand may never contain two copies of the same card.
+  f.hand=[...new Set(f.hand)];
+  let safety=0;
+  while(f.hand.length<5&&safety++<100){
+    const next=drawCard(f);
+    if(!f.hand.includes(next))f.hand.push(next);
+  }
+  ensurePlayable(f);
+}
 function ensurePlayable(f){
   if(f.hand.some(k=>playability(k,f).ok))return false;
   // Prevent dead hands after the opponent changes the ring position.
   // Brace and Block is always legal, costs no momentum and lets play continue.
   let replace=f.hand.findIndex(k=>!C[k].once);
   if(replace<0)replace=0;
-  f.hand[replace]='block';
+  if(!f.hand.includes('block'))f.hand[replace]='block';
+  else {
+    const alternative=weightedLibrary(f.id).find(k=>!f.hand.includes(k)&&canEverDraw(k,f)&&playability(k,f).ok);
+    if(alternative)f.hand[replace]=alternative;
+  }
   return true;
 }
 function reqMatches(){return true}
