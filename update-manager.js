@@ -1,5 +1,5 @@
 (() => {
-  const RUNNING='0.7.5';
+  const RUNNING='0.7.7';
   async function check(){
     try{
       const r=await fetch(`version.json?ts=${Date.now()}`,{cache:'no-store'});
@@ -14,6 +14,6 @@
   }
   window.addEventListener('load',async()=>{
     await check();
-    if('serviceWorker'in navigator){try{const reg=await navigator.serviceWorker.register('service-worker.js?v=0.7.5',{updateViaCache:'none'});await reg.update()}catch(e){}}
+    if('serviceWorker'in navigator){try{const reg=await navigator.serviceWorker.register('service-worker.js?v=0.7.7',{updateViaCache:'none'});await reg.update()}catch(e){}}
   });
 })();

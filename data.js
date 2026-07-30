@@ -1,9 +1,9 @@
 window.LWC_DATA = {
-  version: '0.7.5',
+  version: '0.7.7',
   wrestlers: {
     cody: {
       id: 'cody', name: 'Cody Rhodes', shortName: 'Cody', era: '2026',
-      portrait: 'assets/wrestlers/cody-rhodes/portrait.webp',
+      portrait: 'assets/wrestlers/cody-rhodes/portrait.webp', selectionImage: 'assets/wrestlers/cody-rhodes/selection.webp',
       stats: { power: 88, speed: 91, technique: 94, brawling: 88, charisma: 98, ringIQ: 95, resilience: 96 },
       traits: { crowdGain: 1.22, comboMomentum: 1.18, reversalBonus: 0.04, comeback: 'Finish the Story' },
       ai: { style:'Versatile Showman', weights:{ Aerial:1.35, Grapple:1.18, Strike:1.0, Submission:0.55, Control:1.05, Action:1.2 }, signatureBias:1.35, pinAggression:0.95 },
@@ -17,7 +17,7 @@ window.LWC_DATA = {
     },
     roman: {
       id: 'roman', name: 'Roman Reigns', shortName: 'Roman', era: '2026',
-      portrait: 'assets/wrestlers/roman-reigns/portrait.webp',
+      portrait: 'assets/wrestlers/roman-reigns/portrait.webp', selectionImage: 'assets/wrestlers/roman-reigns/selection.webp',
       stats: { power: 97, speed: 86, technique: 90, brawling: 96, charisma: 99, ringIQ: 96, resilience: 98 },
       traits: { strikeDamage: 1.12, crowdFromAggression: 1.12, riskPenalty: 0.82, comeback: 'Tribal Chief Comeback' },
       ai: { style:'Powerhouse Striker', weights:{ Strike:1.45, Grapple:1.25, Submission:1.05, Aerial:0.05, Control:0.9, Action:0.85 }, signatureBias:1.45, pinAggression:1.12 },

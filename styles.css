@@ -644,3 +644,295 @@
   #match .fighter img{height:154px!important}
   #match .fighter h2{font-size:.88rem!important}
 }
+
+/* v0.7.6 top-aligned crowd stage and compact mobile viewport */
+@media(max-width:850px){
+  #match.screen.active{
+    position:relative;
+    isolation:isolate;
+    padding:0 10px max(7px,env(safe-area-inset-bottom));
+    grid-template-rows:auto auto auto auto minmax(0,1fr) auto;
+    gap:4px;
+    background:linear-gradient(to bottom,transparent 0 260px,#070a0f 390px);
+  }
+  #match.screen.active::before{
+    content:'';
+    position:absolute;
+    z-index:-3;
+    top:0;
+    left:0;
+    right:0;
+    height:330px;
+    background:
+      linear-gradient(to bottom,rgba(3,6,11,.24) 0%,rgba(3,6,11,.08) 45%,rgba(7,10,15,.58) 76%,#070a0f 100%),
+      url('https://i.redd.it/330gtntg11c71.jpg') center 42%/cover no-repeat;
+    filter:saturate(.92) contrast(1.06) brightness(.76);
+    pointer-events:none;
+  }
+  #match .matchHeader{
+    position:relative;
+    z-index:20;
+    height:62px;
+    min-height:62px;
+    width:100%;
+    margin:0;
+    padding:max(8px,env(safe-area-inset-top)) 8px 5px;
+    border-bottom:1px solid rgba(255,255,255,.18);
+    background:linear-gradient(to bottom,rgba(4,8,15,.7),rgba(4,8,15,.18));
+    text-shadow:0 2px 5px #000;
+  }
+  #match .arena{
+    position:relative;
+    z-index:2;
+    width:100%;
+    margin:-1px 0 0;
+    padding:0 4px 2px;
+    overflow:visible;
+    border-radius:0;
+    background:transparent;
+    gap:0 8px;
+  }
+  #match .arena::before,#match .arena::after{display:none!important}
+  #match .fighter{
+    padding:0 2px 2px!important;
+    min-width:0;
+  }
+  #match .fighter img{
+    height:142px!important;
+    object-position:center bottom!important;
+    margin:0 auto!important;
+  }
+  #match .fighter>div{
+    padding:3px 5px 0;
+    background:linear-gradient(to bottom,rgba(5,8,13,.55),rgba(5,8,13,.88));
+    border-radius:0 0 10px 10px;
+  }
+  #match .fighter h2{font-size:.9rem!important;margin:0 0 3px!important}
+  #match .meterRow{margin-top:1px;font-size:.57rem}
+  #match .meter{height:6px}
+  #match .centre{padding:2px 2px 0!important;gap:5px}
+  #match .control{grid-template-columns:24px 1fr 24px;font-size:.66rem}
+  #match .controlTrack{height:9px}
+  #match .position,#match .crowd{font-size:.64rem}
+  #match .message{
+    max-height:47px;
+    min-height:0;
+    margin:0;
+    padding:7px 10px;
+    font-size:.72rem;
+    line-height:1.3;
+  }
+  #match .pileZone{
+    min-height:76px;
+    height:76px;
+    margin:-1px auto 0;
+  }
+  #match .playedPile{height:76px;transform:scale(.72);transform-origin:center top}
+  #match .handHeader{
+    min-height:38px;
+    padding:3px 2px 4px;
+    margin:0;
+  }
+  #match .handHeader h3{font-size:.86rem}
+  #match .handNav{font-size:.62rem;gap:4px}
+  #match .handNav .ghost{padding:6px 7px;font-size:.6rem}
+  #match .handActions button{padding:7px 9px;font-size:.66rem}
+  #match .hand{
+    min-height:0;
+    padding:4px 14px 5px 2px;
+    gap:9px;
+  }
+  #match .gameCard{
+    flex:0 0 min(39vw,156px);
+    width:min(39vw,156px);
+    aspect-ratio:5/7;
+    min-height:0;
+    border-radius:15px;
+  }
+  #match .logWrap summary{padding:7px 9px}
+}
+@media(max-width:390px){
+  #match.screen.active::before{height:305px}
+  #match .matchHeader{height:57px;min-height:57px}
+  #match .fighter img{height:128px!important}
+  #match .fighter h2{font-size:.82rem!important}
+  #match .pileZone{height:68px;min-height:68px}
+  #match .playedPile{transform:scale(.65)}
+  #match .gameCard{flex-basis:min(40vw,150px);width:min(40vw,150px)}
+}
+
+
+/* v0.7.7 true wrestler trading cards using uncropped selection artwork */
+.roster{
+  grid-template-columns:repeat(auto-fit,minmax(270px,330px));
+  align-items:start;
+}
+.rosterTradeCard{
+  aspect-ratio:5/7;
+  min-height:0;
+  padding:10px;
+  gap:0;
+  border:4px solid #d7ad37;
+  border-radius:24px;
+  background:#080b11;
+  isolation:isolate;
+  overflow:hidden;
+  box-shadow:0 18px 42px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.08);
+}
+.rosterTradeCard::before{
+  background:linear-gradient(145deg,rgba(255,255,255,.13),transparent 24%,transparent 72%,rgba(242,194,79,.12));
+  z-index:5;
+}
+.rosterTradeTop{
+  position:absolute;
+  top:16px;
+  left:16px;
+  right:16px;
+  z-index:7;
+}
+.rosterTradeArt{
+  position:absolute;
+  inset:0;
+  min-height:0;
+  padding:0;
+  border-radius:18px;
+  background:radial-gradient(circle at 50% 16%,#253653,#0b0f16 70%);
+}
+.rosterTradeArt::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.06) 0%,rgba(0,0,0,0) 48%,rgba(3,5,8,.35) 67%,rgba(3,5,8,.98) 88%);
+  z-index:2;
+}
+.rosterTradeArt::after{
+  height:48%;
+  z-index:3;
+}
+.rosterTradeArt img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  max-height:none;
+  object-fit:contain;
+  object-position:center bottom;
+  padding:54px 5px 120px;
+  filter:drop-shadow(0 18px 22px rgba(0,0,0,.55));
+}
+.rosterTradeName{
+  position:absolute;
+  z-index:8;
+  left:18px;
+  right:18px;
+  bottom:146px;
+  margin:0;
+  padding:0;
+}
+.rosterTradeName h3{
+  font-size:1.72rem;
+  line-height:.96;
+  text-transform:uppercase;
+  text-shadow:0 3px 8px #000;
+}
+.rosterTradeName p{
+  margin-top:5px;
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:#e2c86a;
+}
+.rosterTradeStats{
+  position:absolute;
+  z-index:8;
+  left:18px;
+  right:18px;
+  bottom:80px;
+  grid-template-columns:repeat(3,1fr);
+  gap:4px;
+  font-size:.65rem;
+  text-align:center;
+}
+.rosterTradeStats span{
+  padding:5px 2px;
+  border-radius:7px;
+  background:rgba(4,7,11,.82);
+  border:1px solid rgba(255,255,255,.08);
+}
+.rosterTradeActions{
+  position:absolute;
+  z-index:9;
+  left:14px;
+  right:14px;
+  bottom:14px;
+  gap:8px;
+}
+.rosterTradeActions button{
+  padding:11px 7px;
+  font-size:.78rem;
+}
+.deckHero .rosterTradeCard.featured{
+  width:min(100%,330px);
+}
+@media(max-width:850px){
+  .roster{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    padding:0 2px;
+  }
+  .rosterTradeCard{
+    width:100%;
+    border-width:3px;
+    border-radius:18px;
+  }
+  .rosterTradeArt{
+    min-height:0;
+  }
+  .rosterTradeArt img{
+    max-height:none;
+    padding:44px 2px 112px;
+  }
+  .rosterChip{
+    padding:5px 7px;
+    font-size:.52rem;
+  }
+  .rosterTradeName{
+    left:12px;
+    right:12px;
+    bottom:130px;
+  }
+  .rosterTradeName h3{
+    font-size:1.05rem;
+  }
+  .rosterTradeName p{
+    font-size:.52rem;
+  }
+  .rosterTradeStats{
+    left:10px;
+    right:10px;
+    bottom:68px;
+    font-size:.45rem;
+    gap:3px;
+  }
+  .rosterTradeStats span{
+    padding:4px 1px;
+  }
+  .rosterTradeActions{
+    left:8px;
+    right:8px;
+    bottom:8px;
+    gap:5px;
+  }
+  .rosterTradeActions button{
+    padding:8px 3px;
+    font-size:.58rem;
+    border-radius:9px;
+  }
+  .deckHero .rosterTradeCard.featured{
+    width:min(82vw,330px);
+  }
+}
+@media(max-width:390px){
+  .rosterTradeName h3{font-size:.92rem}
+  .rosterTradeActions button{font-size:.53rem}
+}

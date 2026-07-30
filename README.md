@@ -1,4 +1,4 @@
-# LEGACY Wrestling Cards v0.7.5
+# LEGACY Wrestling Cards v0.7.7
 
 ## Dual-purpose counter moves
 - Removed the five generic reversal-only cards from Cody Rhodes and Roman Reigns.
@@ -22,3 +22,9 @@
 - Large-hand navigation and playable-card sorting.
 - Portrait-only artwork system.
 - Forced update check on every load.
+
+## v0.7.7
+- Adds the original uncropped Cody Rhodes and Roman Reigns WWE profile images to project assets.
+- Uses dedicated selection.webp files on the selection and deck-view screens.
+- Preserves portrait.webp for the compact match HUD.
+- Rebuilds wrestler selection as true 5:7 trading cards with full-card artwork.
