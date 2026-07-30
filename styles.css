@@ -382,3 +382,119 @@
   #match .fighter h2{font-size:1rem;margin-top:3px}
   #match .gameCard{flex-basis:72vw;min-height:390px}
 }
+
+/* v0.6.2 mobile proportion and hand-header correction */
+@media(max-width:850px){
+  #match.screen.active{
+    grid-template-rows:auto auto auto auto auto minmax(0,1fr) auto;
+    overflow:hidden;
+  }
+  #match .fighter{
+    overflow:hidden;
+    padding:7px 8px 8px;
+  }
+  #match .fighter img{
+    height:168px;
+    width:100%;
+    object-fit:contain;
+    object-position:center 42%;
+    transform:scale(1.35);
+    transform-origin:center 48%;
+    margin:-15px auto -12px;
+    filter:drop-shadow(0 10px 14px #000b);
+  }
+  #match .fighter h2{
+    position:relative;
+    z-index:2;
+    font-size:.92rem;
+    margin:0 0 5px;
+  }
+  #match .pileZone{
+    min-height:100px;
+    margin:1px auto 2px;
+  }
+  #match .handHeader{
+    position:relative;
+    z-index:20;
+    width:100%;
+    min-height:44px;
+    margin:0;
+    padding:5px 2px 6px;
+    background:linear-gradient(180deg,rgba(8,11,16,.98),rgba(8,11,16,.92));
+    border-bottom:1px solid #ffffff12;
+  }
+  #match .handHeader h3{
+    font-size:.95rem;
+    line-height:1;
+    white-space:nowrap;
+  }
+  #match .hand{
+    position:relative;
+    z-index:1;
+    align-items:flex-start;
+    gap:10px;
+    padding:8px 14px 10px 2px;
+    scroll-padding-left:2px;
+  }
+  #match .gameCard{
+    flex:0 0 min(43vw,170px);
+    width:min(43vw,170px);
+    height:auto;
+    min-height:0;
+    aspect-ratio:5/7;
+    padding:9px;
+    border-radius:16px;
+    overflow:hidden;
+  }
+  #match .gameCard h4{
+    font-size:.78rem;
+    margin:4px 0 6px;
+  }
+  #match .gameCard .cardStats,
+  #match .gameCard.hasArt .cardStats{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:4px;
+    margin-top:auto;
+    position:relative;
+    z-index:4;
+  }
+  #match .gameCard .cardStat,
+  #match .gameCard.hasArt .cardStat{
+    display:block;
+    min-width:0;
+    padding:5px 2px;
+    border-radius:7px;
+    background:rgba(5,7,11,.92);
+    text-align:center;
+  }
+  #match .gameCard .cardStat span,
+  #match .gameCard.hasArt .cardStat span{
+    display:block;
+    font-size:.44rem;
+    line-height:1;
+  }
+  #match .gameCard .cardStat b,
+  #match .gameCard.hasArt .cardStat b{
+    display:block;
+    margin-top:3px;
+    font-size:.68rem;
+    line-height:1;
+  }
+  #match .gameCard.hasArt .cardArt{
+    background-size:cover;
+    background-position:center;
+  }
+}
+@media(max-width:390px){
+  #match .fighter img{
+    height:150px;
+    transform:scale(1.3);
+    margin:-13px auto -11px;
+  }
+  #match .fighter h2{font-size:.84rem}
+  #match .gameCard{
+    flex-basis:min(44vw,162px);
+    width:min(44vw,162px);
+  }
+}

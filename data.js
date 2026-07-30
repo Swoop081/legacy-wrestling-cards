@@ -1,5 +1,5 @@
 window.LWC_DATA = {
-  version: '0.6.1',
+  version: '0.6.2',
   wrestlers: {
     cody: {
       id: 'cody', name: 'Cody Rhodes', shortName: 'Cody', era: '2026',

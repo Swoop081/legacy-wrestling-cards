@@ -1,4 +1,4 @@
-# LEGACY Wrestling Cards v0.6.1
+# LEGACY Wrestling Cards v0.6.2
 
 Premium mobile presentation update.
 
