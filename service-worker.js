@@ -1,12 +1,3 @@
-const CACHE_NAME = 'legacy-wrestling-cards-0.2.1';
-const CORE = [
-  './','./index.html','./styles.css','./data.js','./game.js','./manifest.webmanifest','./version.json',
-  './assets/branding/lpw-logo-compact-400.webp','./assets/branding/lpw-logo-main-menu-1200.webp',
-  './assets/wrestlers/stone-cold-steve-austin-1999/portrait.webp',
-  './assets/wrestlers/stone-cold-steve-austin-1999/cards/stone-cold-stunner.webp',
-  './assets/wrestlers/the-rock-1999/portrait.webp',
-  './assets/wrestlers/the-rock-1999/cards/rock-bottom.webp'
-];
-self.addEventListener('install', event => event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE)).then(() => self.skipWaiting())));
-self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim())));
-self.addEventListener('fetch', event => { if (event.request.method === 'GET') event.respondWith(caches.match(event.request).then(hit => hit || fetch(event.request))); });
+const CACHE='legacy-wrestling-cards-0.2.2';
+const FILES=['./','./index.html','./styles.css','./data.js','./game.js','./cards-mode.js','./manifest.webmanifest','./assets/config/imageManager.js','./assets/branding/lpw-logo-compact-400.webp','./assets/branding/lpw-logo-splash-1600.webp','./assets/wrestlers/stone-cold-steve-austin/portrait.webp','./assets/wrestlers/the-rock/portrait.webp','./assets/wrestlers/mike-sullivan/portrait.webp','./assets/wrestlers/johnny-cannon/portrait.webp','./assets/cards/stone-cold-steve-austin/stone-cold-stunner.webp','./assets/cards/the-rock/rock-bottom.webp'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));
