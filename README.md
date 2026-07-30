@@ -1,9 +1,10 @@
-# LEGACY Pro Wrestling 1.0
+# LEGACY Wrestling Cards 0.2.0
 
-This is the canonical **LEGACY 1.0** baseline package.
+Playable GitHub Pages prototype containing only the files required for Exhibition 1v1.
 
-All previous build numbering has been retired. Development now continues from version **1.0**.
+## Roster
+- “Stone Cold” Steve Austin — 1999 persona
+- The Rock — 1999 persona
 
-## Deployment
-
-Upload the contents of this package to the GitHub Pages repository root. Preserve the included `.nojekyll` file.
+## Prototype mechanic
+Each turn presents three trading-card choices. In this test build all three choices repeat the wrestler's current finisher card so the card size, layout and phone presentation can be evaluated before additional card artwork is produced.
